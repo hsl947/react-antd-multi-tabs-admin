@@ -1,0 +1,62 @@
+.header {
+  width: 100%;
+  background: @component-background;
+  height: 64px;
+  padding: 0;
+  box-shadow: 0 0.3px 0.9px rgba(0,0,0,0.12), 0 1.6px 3.6px rgba(0,0,0,0.12);
+  z-index: 2;
+}
+
+.content {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 0 30px;
+  transition: all .3s;
+  &:hover {
+    background: rgba(0, 0, 0, .025);
+  }
+}
+
+.user .avart {
+  display: inline-block;
+  width: 26px;
+  height: 26px;
+  background-color: #1790ff;
+  text-align: center;
+  line-height: 22px;
+  border-radius: 50%;
+  margin-right: 8px;
+  color: #fff;
+}
+
+.logoBox {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  margin: 0 18px;
+  .logo {
+    display: inline-block;
+    width: 50px;
+    margin-right: 8px;
+    img {
+      width: 100%;
+    }
+  }
+  span {
+    font-size: 18px;
+    font-weight: 600;
+    color: rgba(0, 0, 0, 0.65);
+  }
+}
+
+.toggleMenu{
+  display: inline-block;
+  height: 64px;
+  line-height: 64px;
+  padding: 0 24px;
+  font-size: 20px;
+  cursor: pointer;
+  transition: all .3s,padding 0s;
+}

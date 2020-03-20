@@ -1,0 +1,37 @@
+.container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+}
+
+.menu {
+  height: 100vh;
+  box-shadow: 2px 0 6px rgba(0, 21, 41, .35);
+  position: fixed;
+  overflow-y: auto;
+  &::-webkit-scrollbar {
+    width: 0;
+  }
+}
+
+.content {
+  height: 100%;
+  display: flex;
+  flex: auto;
+  flex-direction: column;
+  width: 100%;
+  margin-left: 250px;
+  overflow-x: hidden;
+  transition: margin .2s;
+  &.collapsed{
+    margin-left: 80px;
+  }
+  .mainContent {
+    background: @component-background;
+    margin: 0 16px 16px;
+    padding: 16px;
+    overflow: auto;
+    transition: all .5s;
+  }
+}

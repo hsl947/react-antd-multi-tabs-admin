@@ -1,0 +1,7 @@
+src/registerServiceWorker.js
+src/**/test/**
+config-overrides.js
+/build
+/config
+src/serviceWorker.js
+/test.jsx

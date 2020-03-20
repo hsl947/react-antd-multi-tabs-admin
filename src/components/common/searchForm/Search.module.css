@@ -1,0 +1,7 @@
+.content {
+  border-radius: 4px;
+  /* padding: 20px; */
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+}

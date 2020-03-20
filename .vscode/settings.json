@@ -1,0 +1,35 @@
+{
+  "editor.quickSuggestions": {
+    "strings": true
+  },
+  "search.followSymlinks": false,
+  "eslint.enable": true,
+  "prettier.semi": false,
+  "prettier.singleQuote": false,
+  "eslint.options": {
+    "extensions": [
+      ".js",
+      ".jsx"
+    ],
+    "plugins": [
+      "html",
+    ]
+  },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/bower_components": true,
+    "**/dist": true
+  },
+  // eslint end
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features",
+  },
+  "emmet.includeLanguages": {
+    "javascript": "javascriptreact"
+  },
+  "emmet.triggerExpansionOnTab": true,
+  "git.autofetch": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  }
+}

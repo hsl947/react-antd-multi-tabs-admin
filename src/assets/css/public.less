@@ -1,0 +1,96 @@
+.App {
+  height: 100vh;
+  overflow: hidden;
+}
+
+#root {
+  height: 100vh;
+  overflow: hidden;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.fl {
+  float: left;
+}
+
+.fr {
+  float: right;
+}
+
+.clearfix:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+  height: 0;
+}
+
+.global-spin {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+}
+
+/* 滚动条 */
+
+/*滚动条宽度*/
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+/* Handle样式 */
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+/*当前窗口未激活的情况下*/
+
+::-webkit-scrollbar-thumb:window-inactive {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+/*hover到滚动条上*/
+
+::-webkit-scrollbar-thumb:vertical:hover {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+/*滚动条按下*/
+
+::-webkit-scrollbar-thumb:vertical:active {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.bf-modal {
+  z-index: 999 !important;
+}
+
+input::-webkit-inner-spin-button {
+  display: none !important;
+}
+.ant-menu-item.ant-menu-item-only-child .anticon{
+  margin-right: 10px!important;
+}
+.ant-layout-sider{
+  height: 100%;
+  &::-webkit-scrollbar {
+    width: 0;
+  }
+}
+/* 自动填充样式修改 */
+input:-webkit-autofill {
+	box-shadow: 0 0 0px 1000px @component-background inset !important;
+	text-fill-color: white;
+	-webkit-text-fill-color: white;
+}
