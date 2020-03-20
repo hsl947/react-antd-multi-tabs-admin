@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { HashRouter as Router, Route } from 'react-router-dom'
-import RouterSwitch from '@/route'
 import Container from '@/pages/container'
 import Login from '@/pages/login'
 
@@ -13,11 +12,7 @@ class App extends Component {
           <Route
             path="/"
             key="container"
-            render={(props) => (
-              <Container {...props}>
-                <RouterSwitch />
-              </Container>
-            )}
+            render={(props) => <Container {...props} />}
           />
         </Router>
       </div>

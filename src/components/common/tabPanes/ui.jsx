@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
-import { dropByCacheKey } from 'react-router-cache-route'
 import { Tabs } from 'antd'
 import Home from '@/pages/home'
 import { getKeyName } from '@/assets/js/publicFunc'
@@ -17,7 +16,7 @@ class TabPanes extends Component {
         {
           title: '首页',
           key: 'home',
-          content: <Home />,
+          content: Home,
           closable: false,
           path: '/'
         }
@@ -38,9 +37,6 @@ class TabPanes extends Component {
       tabActiveKey,
       location: { params }
     } = nextProps
-
-    // console.log(3333333333333)
-    // console.log(nextProps, tabActiveKey)
 
     // 如果需要刷新重置tab，刷新
     if (params && params.reload) {
@@ -76,7 +72,7 @@ class TabPanes extends Component {
         {
           title,
           key: tabKey,
-          content: <Content />,
+          content: Content,
           closable: tabKey !== 'home',
           path: next
         }
@@ -114,9 +110,6 @@ class TabPanes extends Component {
     const { panes, activeKey } = this.state
     const delIndex = panes.findIndex((item) => item.key === targetKey)
     panes.splice(delIndex, 1)
-
-    // 删除页面缓存
-    dropByCacheKey(targetKey)
 
     // 删除非当前tab
     if (targetKey !== activeKey) {
@@ -161,7 +154,7 @@ class TabPanes extends Component {
         >
           {panes.map((pane) => (
             <TabPane closable={pane.closable} key={pane.key} tab={pane.title}>
-              {pane.content}
+              <pane.content />
             </TabPane>
           ))}
         </Tabs>

@@ -36,15 +36,14 @@ class Home extends React.Component {
     const { noNewTab } = this.state
     const { pathname } = location
     const { pathname: newPathname, search } = nextProps.location
-    // console.log(222222222)
-    // console.log(nextProps)
+
     if (newPathname === pathname || noNewTab.includes(newPathname)) return
 
     const { tabKey, title, component: Content } = getKeyName(newPathname)
     this.setState({
       panesItem: {
         title,
-        content: <Content />,
+        content: Content,
         key: tabKey,
         closable: tabKey !== 'home',
         path: search ? newPathname + search : newPathname

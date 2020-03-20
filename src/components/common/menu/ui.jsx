@@ -19,7 +19,7 @@ const MenuView = ({ userInfo, collapsed, setStore, menuKeys }) => {
 
   // 递归逐级向上获取最近一级的菜单，并高亮
   const higherMenuKey = useCallback(
-    (checkKey) => {
+    (checkKey = 'home') => {
       const higherKey = checkKey
       if (flatMenu.some((item) => item.key === checkKey)) {
         return higherKey

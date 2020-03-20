@@ -6,11 +6,7 @@ const Page2 = () => {
     // eslint-disable-next-line jsx-a11y/accessible-emoji
     <div style={{ fontSize: '30px' }}>
       🐋😀😆😅🤣😙😎☹️🙁🤓🧐😕😟🥺😩😫🤩🥳😟️🤣🤡👺👹😈😾🤜🏽🏽🦿
-      <Input
-        type="text"
-        placeholder="输入后切换页面，测试持久化"
-        style={{ margin: '20px' }}
-      />
+      <Input type="text" placeholder="随便说点" style={{ margin: '20px' }} />
     </div>
   )
 }

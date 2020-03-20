@@ -78,7 +78,5 @@ module.exports = override(
       '@primary-color':'#6e41ff',
     },
 		localIdentName: '[local]--[hash:base64:5]' // use less-modules
-  }),
-  // React的<keep-alive />功能
-  addBabelPlugin('react-activation/babel')
+  })
 )

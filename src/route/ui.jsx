@@ -1,13 +1,12 @@
 import React, { Component } from 'react'
-import { Redirect } from 'react-router-dom'
-import CacheRoute, { CacheSwitch } from 'react-router-cache-route'
+import { Redirect, Route, Switch } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import routes from './routes'
 
 class RouterView extends Component {
   // 路由item
   setRouteItem = (routeItem, fn) => (
-    <CacheRoute
+    <Route
       exact={!!routeItem.exact}
       key={routeItem.path}
       path={routeItem.path}
@@ -51,9 +50,7 @@ class RouterView extends Component {
   }
 
   render() {
-    return (
-      <CacheSwitch>{routes.map((item) => this.renderRoutes(item))}</CacheSwitch>
-    )
+    return <Switch>{routes.map((item) => this.renderRoutes(item))}</Switch>
   }
 }
 
