@@ -24,7 +24,7 @@ class Home extends React.Component {
     const { userInfo, history, setStore } = this.props
     const { token } = userInfo
     if (!token) {
-      history.push({ pathname: '/login' })
+      history.replace({ pathname: '/login' })
       return
     }
     setStore('SET_COLLAPSED', false)
