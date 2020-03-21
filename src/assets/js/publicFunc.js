@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import routes from '@/route/routes'
 import ErrorPage from '@/pages/public/errorPage'
 

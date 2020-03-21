@@ -1,7 +1,7 @@
 import React, { useState, forwardRef, useImperativeHandle } from 'react'
 import { Table } from 'antd'
 import PropTypes from 'prop-types'
-import useService from '@/utils/tableHook'
+import useService from '@/assets/js/tableHook'
 import SearchView from '@/components/common/searchForm'
 
 /**

@@ -9,6 +9,7 @@ import Add from '@/pages/demo/add'
 import Edit from '@/pages/demo/edit'
 
 /**
+ * 路由配置，带权限
  * path 跳转的路径
  * component 对应路径显示的组件
  * exact 匹配规则，true的时候则精确匹配。

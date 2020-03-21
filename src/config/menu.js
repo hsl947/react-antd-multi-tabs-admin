@@ -1,5 +1,5 @@
 import { HomeOutlined, UserOutlined, ReadOutlined } from '@ant-design/icons'
-
+// 左侧菜单栏配置
 const menus = [
   {
     name: '首页',
