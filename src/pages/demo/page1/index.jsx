@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useRef, useEffect } from 'react'
 import { withRouter } from 'react-router-dom'
 import { Input, Button } from 'antd'
 import MyTable from '@/components/common/table'
@@ -7,8 +7,14 @@ import api from '@/api'
 
 import styles from './Style.module.less'
 
-const Page1 = ({ history }) => {
+const Page1 = ({ history, location }) => {
   const tableRef = useRef()
+
+  const { params } = location
+  useEffect(() => {
+    if (!params) return
+    tableRef.current.update()
+  }, [params])
 
   // 到编辑页面
   const toEdit = (name) => {
