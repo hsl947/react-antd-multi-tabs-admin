@@ -31,7 +31,6 @@ class TabPanes extends Component {
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(nextProps) {
     const { panes } = this.state
-    const { history } = this.props
     const {
       panesItem,
       tabActiveKey,
@@ -40,7 +39,10 @@ class TabPanes extends Component {
 
     // 如果需要刷新重置tab，刷新
     if (params && params.reload) {
-      history.go(0)
+      this.resetTabs()
+      this.setState({
+        activeKey: tabActiveKey
+      })
       return
     }
 
