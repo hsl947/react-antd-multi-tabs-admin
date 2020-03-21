@@ -6,6 +6,7 @@
 由于业务上有多页签需求，网上找了一圈，都是基于antd pro的模板，太重了，不喜欢😒。<br/>
 于是自己从以前的框架上改造，搭了这么一个精简版框架，用得也舒服，原创🤪。
 
+[预览地址](https://www.hongshaoli.com/antd-admin)
 ![](https://hsl947.github.io/images/antd-admin.png)
 </div>
 
