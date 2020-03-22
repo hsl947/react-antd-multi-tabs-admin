@@ -7,7 +7,7 @@
 于是自己从以前的框架上改造，搭了这么一个精简版框架，用得也舒服，原创🤪。
 
 [预览地址](https://www.hongshaoli.com/antd-admin)
-![](https://hsl947.github.io/images/antd-admin.png)
+![](https://github.com/hsl947/hsl947.github.io/raw/master/images/antd-admin.png)
 </div>
 
 ## 特性
