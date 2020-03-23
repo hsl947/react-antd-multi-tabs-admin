@@ -1,5 +1,6 @@
 import routes from '@/route/routes'
 import ErrorPage from '@/pages/public/errorPage'
+import store from '@/redux/store'
 
 /**
  * 以递归的方式展平react router数组
@@ -40,6 +41,45 @@ export const asyncAction = (action) => {
   return (cb) => {
     wait.then(() => setTimeout(() => cb()))
   }
+}
+
+/**
+ * 页签关闭操作回调
+ * @param {object} history 路由history对象。不能new新实例，不然参数无法传递
+ * @param {string} returnUrl 返回地址
+ * @param {function} cb 回调操作，可选
+ */
+export const closeTabAction = (history, returnUrl = '/', cb) => {
+  const { curTab } = store.getState().storeData
+  const { href } = window.location
+  const pathname = href.split('#')[1]
+  // 删除tab
+  const tabArr = JSON.parse(JSON.stringify(curTab))
+  const delIndex = tabArr.findIndex((item) => item === pathname)
+  tabArr.splice(delIndex, 1)
+
+  // 如果要返回的页面被关闭了，再加进去
+  if (!tabArr.includes(returnUrl)) {
+    tabArr.push(returnUrl)
+  }
+
+  // 储存新的tabs数组
+  const action = store.dispatch({
+    type: 'SET_CURTAB',
+    payload: tabArr
+  })
+  // 刷新回调
+  const callback = () => {
+    if (cb && typeof cb === 'function') {
+      return cb
+    }
+    return history.push({
+      pathname: returnUrl,
+      params: { reload: true }
+    })
+  }
+
+  asyncAction(action)(callback)
 }
 
 /**
