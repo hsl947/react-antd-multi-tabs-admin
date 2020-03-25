@@ -19,14 +19,14 @@ const MenuView = ({ userInfo, collapsed, setStore, menuKeys }) => {
 
   // 递归逐级向上获取最近一级的菜单，并高亮
   const higherMenuKey = useCallback(
-    (checkKey = 'home') => {
+    (checkKey = 'home', path = pathname) => {
       const higherKey = checkKey
       if (flatMenu.some((item) => item.key === checkKey)) {
         return higherKey
       }
-      const higherPath = pathname.match(/(.*)\//g)[0].replace(/(.*)\//, '$1')
+      const higherPath = path.match(/(.*)\//g)[0].replace(/(.*)\//, '$1')
       const { tabKey } = getKeyName(higherPath)
-      return higherMenuKey(tabKey)
+      return higherMenuKey(tabKey, higherPath)
     },
     [pathname]
   )
