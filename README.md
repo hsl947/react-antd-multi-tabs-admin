@@ -7,30 +7,36 @@
 于是自己从以前的框架上改造，搭了这么一个精简版框架，用得也舒服，原创🤪。
 
 [预览地址](https://www.hongshaoli.com/antd-admin)
-![](https://github.com/hsl947/hsl947.github.io/raw/master/images/antd-admin.png)
+![](https://github.com/hsl947/hsl947.github.io/raw/master/images/antd-admin-1.png)
+![](https://github.com/hsl947/hsl947.github.io/raw/master/images/antd-admin-2.png)
+![](https://github.com/hsl947/hsl947.github.io/raw/master/images/antd-admin-3.png)
+![](https://github.com/hsl947/hsl947.github.io/raw/master/images/antd-admin-4.png)
+![](https://github.com/hsl947/hsl947.github.io/raw/master/images/antd-admin-5.png)
 </div>
 
 ## 特性
 
-- 📐: **代码规模**：原创精简版脚手架不臃肿
+- 📐: **代码规模**：使用 TS，原创精简版脚手架，不臃肿
 - 💎: **优雅美观**：基于 Ant Design 体系精心设计
 - 🚀: **最新技术栈**：使用 React/Redux/Antd 等前端前沿技术开发
-- 🎨: **主题**：使用流行的暗黑模式主题
+- 🎨: **主题**：使用流行的暗黑模式主题，支持深/浅色主题切换
 
 ## 特点
 
-- Redux状态管理➕持久化
-- 封装简单axios请求
-- 链式面包屑导航
-- 菜单路由权限控制
-- less➕css module样式隔离
+- 多 tab 页签➕右键菜单，提升效率
+- Redux 状态管理➕持久化
+- 封装实用 axios 请求
+- 动态链式面包屑导航
+- 菜单页面路由权限控制
+- less➕css module 样式隔离
 - 列表➕分页➕多选➕搜索联动组件
-- 可自定义webpack配置➕优化打包
+- 可自定义 webpack 配置➕优化打包
 
 ## 使用
 
 ### 使用命令行
 ```bash
+$ npm install -g typescript
 $ git clone https://github.com/hsl947/react-antd-multi-tabs-admin.git
 $ yarn install
 $ yarn start         # 访问 http://localhost:666

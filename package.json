@@ -40,7 +40,7 @@
     "typescript": "^3.8.3"
   },
   "scripts": {
-    "start": "cross-env PORT=8000 react-app-rewired start",
+    "start": "cross-env PORT=666 react-app-rewired start",
     "test": "react-app-rewired test",
     "build": "react-app-rewired build"
   },
