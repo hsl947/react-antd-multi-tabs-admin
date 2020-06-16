@@ -1,68 +1,52 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<h1 align="center">Antd Multi Tabs Admin</h1>
 
-## Available Scripts
+<div align="center">🛠️Antd多标签页后台管理模板🛠️</div>
 
-In the project directory, you can run:
+<div align="center">
+由于业务上有多页签需求，网上找了一圈，都是基于antd pro的模板，太重了，不喜欢😒。<br/>
+于是自己从以前的框架上改造，搭了这么一个精简版框架，用得也舒服，原创🤪。
 
-### `yarn start`
+[预览地址](https://www.hongshaoli.com/antd-admin)
+![](https://github.com/hsl947/hsl947.github.io/raw/master/images/antd-admin.png)
+</div>
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## 特性
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+- 📐: **代码规模**：原创精简版脚手架不臃肿
+- 💎: **优雅美观**：基于 Ant Design 体系精心设计
+- 🚀: **最新技术栈**：使用 React/Redux/Antd 等前端前沿技术开发
+- 🎨: **主题**：使用流行的暗黑模式主题
 
-### `yarn test`
+## 特点
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Redux状态管理➕持久化
+- 封装简单axios请求
+- 链式面包屑导航
+- 菜单路由权限控制
+- less➕css module样式隔离
+- 列表➕分页➕多选➕搜索联动组件
+- 可自定义webpack配置➕优化打包
 
-### `yarn build`
+## 使用
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 使用命令行
+```bash
+$ git clone https://github.com/hsl947/react-antd-multi-tabs-admin.git
+$ yarn install
+$ yarn start         # 访问 http://localhost:666
+```
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+## 支持环境
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+现代浏览器及 IE11。
 
-### `yarn eject`
+| [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" alt="IE / Edge" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>IE / Edge | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png" alt="Firefox" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Firefox | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png" alt="Chrome" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Chrome | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png" alt="Safari" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Safari | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/opera/opera_48x48.png" alt="Opera" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Opera |
+| --------- | --------- | --------- | --------- | --------- |
+| IE11, Edge| last 2 versions| last 2 versions| last 2 versions| last 2 versions
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## 参与贡献
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+我们非常欢迎你的贡献，你可以通过以下方式和我们一起共建 :smiley:：
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+- 通过 [Issue](https://github.com/hsl947/react-antd-multi-tabs-admin/issues) 报告 bug。
+- 提交 [Pull Request](https://github.com/hsl947/react-antd-multi-tabs-admin/pulls) 一起改进。
