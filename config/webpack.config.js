@@ -71,7 +71,7 @@ module.exports = override(
 	}),
   // 使用less-loader对源码重的less的变量进行重新制定，设置antd自定义主题
 	addLessLoader({
-		javascriptEnabled: true,
+    javascriptEnabled: true,
 		modifyVars:{
       'hack': `true;@import "${require.resolve('antd/lib/style/color/colorPalette.less')}";`,
       ...darkThemeVars,

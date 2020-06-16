@@ -5,3 +5,8 @@ config-overrides.js
 /config
 src/serviceWorker.js
 /test.jsx
+react-app-env.d.ts
+/typings
+!.eslintrc.js
+echarts-dark-theme.*
+/public
