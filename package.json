@@ -15,6 +15,7 @@
     "@types/react-redux": "^7.1.7",
     "@types/react-router-dom": "^5.1.4",
     "@types/redux-promise": "^0.5.28",
+    "ali-oss": "^6.7.0",
     "antd": "^4.2.0",
     "axios": "^0.19.0",
     "babel-plugin-import": "^1.12.2",

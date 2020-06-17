@@ -43,9 +43,9 @@ const menus = [
     ]
   },
   {
-    path: '/auth/xxxx',
+    path: '/auth/test',
     name: '测试权限页',
-    key: 'no:auth',
+    key: 'auth:test:view',
     icon: BankOutlined
   }
 ]

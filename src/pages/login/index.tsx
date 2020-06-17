@@ -64,6 +64,10 @@ const LoginForm: FC<any> = ({
         {
           code: 'role:list:view',
           name: '查看角色列表'
+        },
+        {
+          code: 'auth:test:view',
+          name: '查看权限测试页'
         }
       ]
     }

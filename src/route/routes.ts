@@ -6,6 +6,8 @@ import UserEdit from '@/pages/user/edit'
 
 import RoleList from '@/pages/role/list'
 
+import AuthTest from '@/pages/test'
+
 /**
  * path 跳转的路径
  * component 对应路径显示的组件
@@ -60,6 +62,13 @@ const menus = [
         component: RoleList
       }
     ]
+  },
+  {
+    path: '/auth/test',
+    name: '权限测试页',
+    exact: true,
+    key: 'auth:test:view',
+    component: AuthTest
   },
   {
     path: '/403',
