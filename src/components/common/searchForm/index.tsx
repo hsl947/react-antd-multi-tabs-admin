@@ -5,7 +5,6 @@ import React, {
   MutableRefObject
 } from 'react'
 import { Form, Button } from 'antd'
-import style from './Search.module.css'
 
 interface SearchProps {
   ref?: MutableRefObject<any> | ((instance: any) => void);
@@ -56,22 +55,21 @@ const SearchForm: FC<SearchProps> = forwardRef(
     }))
 
     return (
-      <div className={style.content}>
-        <Form
-          form={form}
-          initialValues={initialValues}
-          onFieldsChange={onFieldsChange}
-          layout="inline"
-          onFinish={emitSearch}
-        >
-          {getFields()}
-          <Form.Item>
-            <Button htmlType="submit" type="primary">
-              搜索
-            </Button>
-          </Form.Item>
-        </Form>
-      </div>
+      <Form
+        form={form}
+        initialValues={initialValues}
+        onFieldsChange={onFieldsChange}
+        layout="inline"
+        onFinish={emitSearch}
+        style={{ marginBottom: 10 }}
+      >
+        {getFields()}
+        <Form.Item>
+          <Button htmlType="submit" type="primary">
+            搜索
+          </Button>
+        </Form.Item>
+      </Form>
     )
   }
 )
