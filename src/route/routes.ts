@@ -64,7 +64,7 @@ const menus = [
     ]
   },
   {
-    path: '/auth/test',
+    path: '/auth',
     name: '权限测试页',
     exact: true,
     key: 'auth:test:view',
