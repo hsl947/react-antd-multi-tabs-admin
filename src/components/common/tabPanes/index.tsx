@@ -184,10 +184,23 @@ class TabPanes extends Component<any, any> {
     const { history } = this.props
     const { selectedPanel } = this.state
     const { path, key } = selectedPanel
-    history.push(path)
+    history.push(isCloseAll ? '/' : path)
+
+    const homePanel = [
+      {
+        title: '首页',
+        key: 'home',
+        content: Home,
+        closable: false,
+        path: '/'
+      }
+    ]
     this.setState(
       {
-        panes: key !== 'home' ? [...initPane, selectedPanel] : [selectedPanel],
+        panes:
+          key !== 'home' && !isCloseAll
+            ? [...homePanel, selectedPanel]
+            : homePanel,
         activeKey: isCloseAll ? 'home' : key
       },
       () => {
