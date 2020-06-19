@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import MenuView from '@/components/common/menu'
 import classNames from 'classnames'
-import { Layout } from 'antd'
+import { Layout, BackTop } from 'antd'
 import { getKeyName, isAuthorized } from '@/assets/js/publicFunc'
 import Header from '@/components/common/header'
 import TabPanes from '@/components/common/tabPanes'
@@ -148,6 +148,7 @@ class Home extends Component<any, any> {
             />
           </Layout.Content>
         </Layout>
+        <BackTop visibilityHeight={1080} />
       </Layout>
     )
   }
