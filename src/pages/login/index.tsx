@@ -120,7 +120,7 @@ const LoginForm: FC<any> = ({
       />
       <div className="logo-box">
         <img alt="" className="logo" src={Logo} />
-        <span className="logo-name">React-Antd多页签模板管理后台</span>
+        <span className="logo-name">React-Antd Multi-Tab</span>
       </div>
       {FormView}
     </div>

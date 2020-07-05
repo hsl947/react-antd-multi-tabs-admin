@@ -9,6 +9,7 @@ const RoleList: FC<any> = () => {
 
   const preview = (url: string) =>
     previewImg(<img src={url} width="100%" alt="" />)
+
   const columns = [
     {
       title: 'avatar',

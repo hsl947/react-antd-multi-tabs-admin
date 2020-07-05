@@ -11,11 +11,10 @@ import actions from '@/store/actions'
 import styles from './Home.module.less'
 
 const mapStateToProps = (state: any) => {
-  const { userInfo, collapsed, curTab } = state.storeData
+  const { userInfo, collapsed } = state.storeData
   return {
     userInfo,
-    collapsed,
-    curTab
+    collapsed
   }
 }
 
@@ -48,11 +47,7 @@ class Home extends Component<any, any> {
       return
     }
 
-    if (document.body.clientWidth <= 1366) {
-      setStoreData('SET_COLLAPSED', true)
-      return
-    }
-    setStoreData('SET_COLLAPSED', false)
+    setStoreData('SET_COLLAPSED', document.body.clientWidth <= 1366)
   }
 
   // eslint-disable-next-line camelcase
