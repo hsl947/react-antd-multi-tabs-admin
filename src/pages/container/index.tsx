@@ -22,14 +22,24 @@ const mapDispatchToProps = (dispatch: (arg0: any) => any) => ({
   setStoreData: (type: string, payload: any) => dispatch(actions(type, payload))
 })
 
+const noNewTab = ['/login'] // 不需要新建 tab的页面
+const noCheckAuth = ['/', '/403'] // 不需要检查权限的页面
+// 检查权限
+const checkAuth = (newPathname: string): boolean => {
+  // 不需要检查权限的
+  if (noCheckAuth.includes(newPathname)) {
+    return true
+  }
+  const { tabKey: currentKey } = getKeyName(newPathname)
+  return isAuthorized(currentKey)
+}
+
 class Home extends Component<any, any> {
   constructor(props: any) {
     super(props)
     this.state = {
       tabActiveKey: 'home',
-      panesItem: {},
-      noNewTab: ['/login'],
-      noCheckAuth: ['/', '/403']
+      panesItem: {}
     }
   }
 
@@ -53,7 +63,6 @@ class Home extends Component<any, any> {
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(nextProps: any) {
     const { location, history, userInfo = {} } = this.props
-    const { noNewTab } = this.state
     const { pathname } = location
     const { pathname: newPathname, search } = nextProps.location
     const { token } = userInfo
@@ -72,7 +81,7 @@ class Home extends Component<any, any> {
     }
 
     // 检查权限，比如直接从地址栏输入的，提示无权限
-    const isHasAuth = this.checkAuth(newPathname)
+    const isHasAuth = checkAuth(newPathname)
     if (!isHasAuth) {
       const errorUrl = '/403'
       const {
@@ -104,16 +113,6 @@ class Home extends Component<any, any> {
       },
       tabActiveKey: tabKey
     })
-  }
-
-  checkAuth(newPathname: string): boolean {
-    const { noCheckAuth } = this.state
-    // 不需要检查权限的
-    if (noCheckAuth.includes(newPathname)) {
-      return true
-    }
-    const { tabKey: currentKey } = getKeyName(newPathname)
-    return isAuthorized(currentKey)
   }
 
   render() {
