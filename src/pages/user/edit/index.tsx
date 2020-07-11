@@ -68,8 +68,8 @@ const FormView: FC<any> = ({ history }) => {
         >
           <MySelect
             data={[
-              { code: 'male', name: 'male' },
-              { code: 'female', name: 'female' }
+              { key: 'male', name: 'male' },
+              { key: 'female', name: 'female' }
             ]}
             placeholder="请选择性别"
           />
