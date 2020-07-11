@@ -14,6 +14,7 @@ interface SearchProps {
   onFieldsChange?: (arg0?: any, arg1?: any) => void;
   onChange?: () => void;
 }
+
 const SearchForm: FC<SearchProps> = forwardRef(
   (
     props: SearchProps,
