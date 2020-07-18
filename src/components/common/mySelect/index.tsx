@@ -6,8 +6,6 @@ const { Option } = Select
 interface Props {
   data: any[];
   placeholder?: string;
-  name?: string;
-  type?: string;
   value?: string;
   onChange?: (arg0: any) => void;
   width?: string | number;
