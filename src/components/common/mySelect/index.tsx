@@ -20,8 +20,6 @@ const MySelect: FC<Props> = (props) => {
   const {
     data,
     placeholder = '请输入搜索条件',
-    name = 'name',
-    type = 'key',
     value,
     onChange = () => {},
     width = '100%',
@@ -48,8 +46,8 @@ const MySelect: FC<Props> = (props) => {
       defaultValue={defaultValue}
     >
       {data.map((item) => (
-        <Option key={item[type]} title={item[name]} value={item[type]}>
-          {item[name]}
+        <Option key={item.key} title={item.name} value={item.key}>
+          {item.name}
         </Option>
       ))}
     </Select>

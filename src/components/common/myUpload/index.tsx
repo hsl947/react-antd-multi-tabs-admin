@@ -8,6 +8,7 @@ interface Props {
   value?: string;
   accept?: any;
   size?: number;
+  action?: string;
 }
 
 const MyUpload: FC<Props> = (props) => {
@@ -16,7 +17,8 @@ const MyUpload: FC<Props> = (props) => {
     onChange,
     value,
     accept = ['jpg', 'jpeg', 'png', 'gif'],
-    size = 5
+    size = 5,
+    action = '/api/common/upload'
   } = props
 
   const uploadButton = loading ? <LoadingOutlined /> : <PlusOutlined />
@@ -34,9 +36,9 @@ const MyUpload: FC<Props> = (props) => {
   const onError = (): void => {}
 
   const uploadProps: any = {
-    action: '/api/common/upload',
+    action,
     onStart,
-    customRequest({ action, file, filename }) {
+    customRequest({ file, filename }) {
       const isType = accept.some((item: string) => file.type.includes(item))
       const isSize = file.size / 1024 / 1024 < size
       if (!isType || !isSize) {
