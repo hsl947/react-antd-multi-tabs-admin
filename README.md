@@ -42,6 +42,55 @@ $ yarn install
 $ yarn start         # 访问 http://localhost:666
 ```
 
+### 权限控制
+<p>如果不需要权限控制，可自行注释去掉权限功能。</p>
+
+```
+# src/components/common/menu/index.tsx
+
+// 创建可展开的第一级子菜单
+const creatSubMenu = (data: any): JSX.Element => {
+  // const menuItemList = []
+  // data.routes.map((item: any) => {
+  //   const arr = permission.filter((ele: any) => item.key === ele.code)
+  //   if (arr.length > 0) {
+  //     menuItemList.push(renderMenu(item))
+  //   }
+  //  return arr
+  // })
+
+  const menuItemList = data.routes.reduce(
+    (prev: any, next: any) => [...prev, renderMenu(next)],
+    []
+  )
+
+  return menuItemList.length > 0 ? (
+    <SubMenu key={data.key} title={subMenuTitle(data)}>
+      {menuItemList}
+    </SubMenu>
+  ) : null
+}
+```
+
+```
+# src/pages/container/index.tsx
+
+// 检查权限
+const checkAuth = (newPathname: string): boolean => {
+  // 不需要检查权限的
+  // if (noCheckAuth.includes(newPathname)) {
+  //   return true
+  // }
+  // const { tabKey: currentKey } = getKeyName(newPathname)
+  // return isAuthorized(currentKey)
+
+  // 一定返回 true
+  return !!newPathname
+}
+
+```
+
+
 ## 支持环境
 
 现代浏览器及 IE11。
