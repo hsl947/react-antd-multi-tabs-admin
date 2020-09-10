@@ -90,6 +90,52 @@ const checkAuth = (newPathname: string): boolean => {
 
 ```
 
+### Redux 的使用说明
+```
+# 在/src/store/actionTypes/index.tsx 定义新字段，格式如下
+export default {
+  ...,
+  SET_ACTION: {
+    name: 'SET_ACTION',
+    field: 'action'
+  }
+}
+
+# 在/src/store/state/index.tsx 也定义新字段，格式如下
+interface StoreState {
+  ...;
+  action: string;
+}
+const initState: StoreState = {
+  ...,
+  action: ''
+}
+
+# 在要使用的组件中，引入 mapStateToProps 和 mapDispatchToProps
+import { connect } from 'react-redux'
+import actions from '@/store/actions'
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ComponentName)
+
+# 然后在 props 就有 setStoreData 属性，可用来 dispatch
+setStoreData('SET_ACTION', '')
+
+# 只需要定义 type 和 state，不需要写每个action，效率提高了木有有！！！
+```
+
+### 路由/菜单配置
+```
+# 所有路由写在 /src/route/routes.ts （包括菜单栏的路由）
+  用于路由权限控制
+
+# 左侧菜单路由写在 /src/config/menu.ts
+  仅用于菜单栏展示
+
+# 分两套的原因是，方便维护，如果不嫌麻烦，可以都写在 routes 里，用一个字段标识菜单路由即可
+```
+
 
 ## 支持环境
 
