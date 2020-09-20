@@ -10,7 +10,7 @@ import React, {
 import { useHistory, useLocation } from 'react-router-dom'
 import { Tabs, Alert, Dropdown, Menu } from 'antd'
 import Home from '@/pages/home'
-import { getKeyName } from '@/assets/js/publicFunc'
+import { getKeyName, isAuthorized } from '@/assets/js/publicFunc'
 import { SyncOutlined } from '@ant-design/icons'
 import { connect } from 'react-redux'
 import * as actions from '@/store/actions'
@@ -119,7 +119,14 @@ const TabPanes: FC<Props> = (props) => {
 
     // 删除当前tab，地址往前推
     const nextPath = curTab[delIndex - 1]
-    history.push(nextPath)
+    const { tabKey } = getKeyName(nextPath)
+    // 如果当前tab关闭后，上一个tab无权限，就一起关掉
+    if (!isAuthorized(tabKey) && nextPath !== '/') {
+      remove(tabKey)
+      history.push(curTab[delIndex - 2])
+    } else {
+      history.push(nextPath)
+    }
     setPanes(panes)
     storeTabs(panes)
   }

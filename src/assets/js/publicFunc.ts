@@ -278,42 +278,11 @@ export const previewImg = (children: string | React.ReactNode) => {
 }
 
 /**
- * 根据路径，判断当前路径页面是否在视图内（多tab页签）
- * @param {string} path 要判断的路由
- */
-export const isInCurrentView = (path: string) => {
-  const { href } = window.location
-  return href.includes(path)
-}
-
-/**
  * 限制两位小数，可 ±
  * @param {string} val 要格式化的数字
  */
 export const limitDecimal = (val: string) =>
   val.replace(/^(-)*(\d+)\.(\d\d).*$/, '$1$2.$3')
-
-/**
- * 获取本地存储中的游戏类型
- */
-export const getGameTypes = () => {
-  const gameString = localStorage.getItem('GAME_TYPES')
-  try {
-    const gameTypes = JSON.parse(gameString).reduce(
-      (prev: any[], next: any) => [
-        ...prev,
-        {
-          key: next.gameType,
-          name: next.gameName
-        }
-      ],
-      []
-    )
-    return gameTypes
-  } catch (error) {
-    return []
-  }
-}
 
 /**
  * 处理用户信息并储存起来
