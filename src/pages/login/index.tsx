@@ -1,4 +1,5 @@
 import React, { useEffect, FC } from 'react'
+import { useHistory } from 'react-router-dom'
 import { LockOutlined, UserOutlined } from '@ant-design/icons'
 import { Form, Input, Button, message } from 'antd'
 import ReactCanvasNest from 'react-canvas-nest'
@@ -6,26 +7,15 @@ import './login.less'
 import Logo from '@/assets/img/logo.png'
 import { setUserInfo } from '@/assets/js/publicFunc'
 import { connect } from 'react-redux'
-import actions from '@/store/actions'
+import * as actions from '@/store/actions'
 
-const mapStateToProps = (state: any) => {
-  const { userInfo, theme } = state.storeData
-  return {
-    userInfo,
-    theme
-  }
-}
+interface Props extends ReduxProps {}
 
-const mapDispatchToProps = (dispatch: (arg0: any) => any) => ({
-  setStoreData: (type: string, payload: any) => dispatch(actions(type, payload))
-})
-
-const LoginForm: FC<any> = ({
-  theme,
-  userInfo = {},
-  history,
+const LoginForm: FC<Props> = ({
+  storeData: { theme, userInfo = {} },
   setStoreData
 }) => {
+  const history = useHistory()
   useEffect(() => {
     const { token } = userInfo
     if (token) {
@@ -128,6 +118,6 @@ const LoginForm: FC<any> = ({
 }
 
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+  (state) => state,
+  actions
 )(LoginForm)

@@ -3,23 +3,14 @@ import { useHistory } from 'react-router-dom'
 import { List, Typography, Button } from 'antd'
 import { KeyOutlined } from '@ant-design/icons'
 import { connect } from 'react-redux'
-import actions from '@/store/actions'
+import * as actions from '@/store/actions'
 import { setUserInfo } from '@/assets/js/publicFunc'
-
-const mapStateToProps = (state: any) => {
-  const { userInfo } = state.storeData
-  return {
-    userInfo
-  }
-}
-
-const mapDispatchToProps = (dispatch: (arg0: any) => any) => ({
-  setStoreData: (type: string, payload: any) => dispatch(actions(type, payload))
-})
 
 const { Text } = Typography
 
-const AuthTest: FC<any> = ({ userInfo, setStoreData }) => {
+interface Props extends ReduxProps {}
+
+const AuthTest: FC<Props> = ({ storeData: { userInfo }, setStoreData }) => {
   const history = useHistory()
   const { userName, permission } = userInfo
 
@@ -104,6 +95,6 @@ const AuthTest: FC<any> = ({ userInfo, setStoreData }) => {
 }
 
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+  (state) => state,
+  actions
 )(AuthTest)

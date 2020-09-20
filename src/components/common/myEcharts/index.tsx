@@ -2,20 +2,16 @@ import React, { FC } from 'react'
 import ReactEcharts from 'echarts-for-react'
 import { connect } from 'react-redux'
 
-interface Props {
+interface Props extends ReduxProps {
   option: object;
   style?: object;
-  theme?: string | undefined;
 }
 
-const mapStateToProps = (state: any) => {
-  const { theme } = state.storeData
-  return {
-    theme
-  }
-}
-
-const MyEcharts: FC<Props> = ({ option = {}, style = {}, theme }) => {
+const MyEcharts: FC<Props> = ({
+  option = {},
+  style = {},
+  storeData: { theme }
+}) => {
   const themeColor = theme === 'default' ? {} : { theme: 'dark' }
   const options = {
     ...option,
@@ -29,4 +25,4 @@ const MyEcharts: FC<Props> = ({ option = {}, style = {}, theme }) => {
   return <ReactEcharts option={options} {...themeColor} style={style} />
 }
 
-export default connect(mapStateToProps)(MyEcharts)
+export default connect((state) => state)(MyEcharts)

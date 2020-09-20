@@ -1,5 +1,5 @@
 import React, { useEffect, useState, FC } from 'react'
-import { withRouter } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import { Form, Input, Button, message, Switch, Spin } from 'antd'
 import { formItemLayout, wrapperCol } from '@/config/layout'
 import { closeTabAction, getQuery } from '@/assets/js/publicFunc'
@@ -7,7 +7,7 @@ import MySelect from '@/components/common/mySelect'
 import MyUpload from '@/components/common/myUpload'
 import Editor from '@/components/common/editor'
 
-const FormView: FC<any> = ({ history }) => {
+const FormView: FC = () => {
   const query = getQuery()
   const { id } = query
 
@@ -15,6 +15,8 @@ const FormView: FC<any> = ({ history }) => {
   const { setFieldsValue, resetFields } = form
 
   const [loading, setLoading] = useState<boolean>(false)
+
+  const history: any = useHistory()
 
   // 编辑状态
   useEffect(() => {
@@ -114,4 +116,4 @@ const FormView: FC<any> = ({ history }) => {
   )
 }
 
-export default withRouter(FormView)
+export default FormView

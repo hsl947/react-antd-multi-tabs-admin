@@ -4,7 +4,7 @@ import MyTable from '@/components/common/table'
 import { previewImg } from '@/assets/js/publicFunc'
 import commom from '@/api'
 
-const RoleList: FC<any> = () => {
+const RoleList: FC = () => {
   const tableRef: MutableRefObject<any> = useRef()
 
   const preview = (url: string) =>

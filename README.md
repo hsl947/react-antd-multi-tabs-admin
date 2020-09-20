@@ -111,12 +111,12 @@ const initState: StoreState = {
   action: ''
 }
 
-# 在要使用的组件中，引入 mapStateToProps 和 mapDispatchToProps
+# 在要使用的组件中
 import { connect } from 'react-redux'
-import actions from '@/store/actions'
+import * as actions from '@/store/actions'
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+  (state) => state,
+  actions
 )(ComponentName)
 
 # 然后在 props 就有 setStoreData 属性，可用来 dispatch

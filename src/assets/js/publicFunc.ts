@@ -76,7 +76,7 @@ export const asyncAction = (action: any) => {
  * @param {function} cb 回调操作，可选
  */
 export const closeTabAction = (
-  history: { pathname: string, params: { reload: boolean } }[],
+  history: any,
   returnUrl: string = '/',
   cb?: () => void
 ) => {
@@ -94,18 +94,32 @@ export const closeTabAction = (
   }
 
   // 储存新的tabs数组
-  const action = store.dispatch({
+  const setTab = store.dispatch({
     type: 'SET_CURTAB',
     payload: tabArr
   })
+  // 刷新tab
+  const reloadTab = store.dispatch({
+    type: 'SET_RELOADPATH',
+    payload: returnUrl
+  })
+  // 停止刷新tab
+  const stopReload = setTimeout(() => {
+    store.dispatch({
+      type: 'SET_RELOADPATH',
+      payload: 'null'
+    })
+  }, 500)
+
+  const action = () => setTab && reloadTab && stopReload
+
   // 刷新回调
   const callback = () => {
     if (cb && typeof cb === 'function') {
       return cb
     }
     return history.push({
-      pathname: returnUrl,
-      params: { reload: true }
+      pathname: returnUrl
     })
   }
 

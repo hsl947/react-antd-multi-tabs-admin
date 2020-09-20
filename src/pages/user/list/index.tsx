@@ -1,20 +1,14 @@
-import React, { useEffect, useRef, MutableRefObject, FC } from 'react'
-import { withRouter } from 'react-router-dom'
+import React, { useRef, MutableRefObject, FC } from 'react'
+import { useHistory } from 'react-router-dom'
 import { Button, Input } from 'antd'
 import MyTable from '@/components/common/table'
 import { isAuthorized, previewImg } from '@/assets/js/publicFunc'
 import MySelect from '@/components/common/mySelect'
 import commom from '@/api'
 
-const UserList: FC<any> = ({ location, history }) => {
+const UserList: FC = () => {
   const tableRef: MutableRefObject<any> = useRef()
-
-  // 刷新页面回调操作
-  const { params } = location
-  useEffect(() => {
-    if (!params) return
-    tableRef.current.update()
-  }, [params])
+  const history = useHistory()
 
   // 添加
   const add = () => {
@@ -113,4 +107,4 @@ const UserList: FC<any> = ({ location, history }) => {
     </>
   )
 }
-export default withRouter(UserList)
+export default UserList

@@ -9,7 +9,7 @@ const App: FC = () => (
     <Route
       path="/"
       key="container"
-      render={(props) => <Container {...props} />}
+      render={(props: any) => <Container {...props} />}
     />
   </Router>
 )

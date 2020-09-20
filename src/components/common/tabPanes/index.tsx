@@ -6,26 +6,14 @@ import React, {
   MutableRefObject,
   useCallback
 } from 'react'
-import { withRouter } from 'react-router-dom'
+import { useHistory, useLocation } from 'react-router-dom'
 import { Tabs, Alert, Dropdown, Menu } from 'antd'
 import Home from '@/pages/home'
 import { getKeyName } from '@/assets/js/publicFunc'
 import { SyncOutlined } from '@ant-design/icons'
 import { connect } from 'react-redux'
-import actions from '@/store/actions'
+import * as actions from '@/store/actions'
 import style from './TabPanes.module.less'
-
-const mapStateToProps = (state: any) => {
-  const { curTab, reloadPath } = state.storeData
-  return {
-    curTab,
-    reloadPath
-  }
-}
-
-const mapDispatchToProps = (dispatch: (arg0: any) => any) => ({
-  setStoreData: (type: string, payload: any) => dispatch(actions(type, payload))
-})
 
 const { TabPane } = Tabs
 
@@ -48,17 +36,15 @@ const TabPanes: FC<any> = (props: any) => {
   const pathRef: MutableRefObject<any> = useRef<string>('')
 
   const {
-    location,
-    history,
+    storeData: { curTab, reloadPath },
     setStoreData,
-    curTab,
     defaultActiveKey,
-    reloadPath,
     panesItem,
     tabActiveKey
   } = props
 
-  const { pathname, search, params } = location
+  const history = useHistory()
+  const { pathname, search } = useLocation()
 
   const fullPath = pathname + search
 
@@ -176,14 +162,6 @@ const TabPanes: FC<any> = (props: any) => {
     // 当前的路由和上一次的一样，return
     if (!panesItem.path || panesItem.path === pathRef.current) return
 
-    // 如果从登陆页面进来，或需要刷新重置tab，刷新
-    if ((params && params.reload) || pathRef.current === '/login') {
-      resetTabs()
-      setActiveKey(tabActiveKey)
-      pathRef.current = newPath
-      return
-    }
-
     // 保存这次的路由地址
     pathRef.current = newPath
 
@@ -207,16 +185,7 @@ const TabPanes: FC<any> = (props: any) => {
     setPanes(panes)
     setActiveKey(tabActiveKey)
     storeTabs(panes)
-  }, [
-    panes,
-    panesItem,
-    params,
-    pathname,
-    resetTabs,
-    search,
-    storeTabs,
-    tabActiveKey
-  ])
+  }, [panes, panesItem, pathname, resetTabs, search, storeTabs, tabActiveKey])
 
   const isDisabled = () => selectedPanel.key === 'home'
   // tab右击菜单
@@ -314,6 +283,6 @@ const TabPanes: FC<any> = (props: any) => {
 }
 
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withRouter(TabPanes))
+  (state) => state,
+  actions
+)(TabPanes)

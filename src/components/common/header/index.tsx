@@ -1,25 +1,19 @@
 import React, { useState, useEffect, FC } from 'react'
-import { withRouter } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import { Menu, Dropdown, Layout } from 'antd'
 import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons'
 import Breadcrumb from '@/components/common/breadcrumb'
 import { connect } from 'react-redux'
-import actions from '@/store/actions'
+import * as actions from '@/store/actions'
 import style from './Header.module.less'
 
-const mapStateToProps = (state: any) => {
-  const { userInfo, theme } = state.storeData
-  return {
-    userInfo,
-    theme
-  }
-}
+interface Props extends ReduxProps {}
 
-const mapDispatchToProps = (dispatch: (arg0: any) => any) => ({
-  setStoreData: (type: string, payload: any) => dispatch(actions(type, payload))
-})
-
-const Header: FC<any> = ({ theme, userInfo, setStoreData, history }) => {
+const Header: FC<Props> = ({
+  storeData: { theme, userInfo },
+  setStoreData
+}) => {
+  const history = useHistory()
   const { userName = '-' } = userInfo
   const firstWord = userName.slice(0, 1)
   const [collapsed, setCollapsed] = useState(false)
@@ -114,6 +108,6 @@ const Header: FC<any> = ({ theme, userInfo, setStoreData, history }) => {
   )
 }
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withRouter(Header))
+  (state) => state,
+  actions
+)(Header)

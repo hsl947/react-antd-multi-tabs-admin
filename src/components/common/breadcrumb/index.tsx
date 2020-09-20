@@ -7,8 +7,12 @@ import { flattenRoutes } from '@/assets/js/publicFunc'
 
 const allRoutes = flattenRoutes(routes)
 
+interface Props {
+  breadcrumbs: any[];
+}
+
 // 通用面包屑
-const Breadcrumbs: FC<any> = ({ breadcrumbs }) => {
+const Breadcrumbs: FC<Props> = ({ breadcrumbs }) => {
   const history = useHistory()
   return (
     <Breadcrumb style={{ display: 'inline-block' }}>

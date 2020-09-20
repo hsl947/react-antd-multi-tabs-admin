@@ -1,5 +1,5 @@
 import React, { FC, useState, useEffect, useRef, MutableRefObject } from 'react'
-import { withRouter } from 'react-router-dom'
+import { useHistory, useLocation } from 'react-router-dom'
 import MenuView from '@/components/common/menu'
 import classNames from 'classnames'
 import { Layout, BackTop } from 'antd'
@@ -7,20 +7,8 @@ import { getKeyName, isAuthorized } from '@/assets/js/publicFunc'
 import Header from '@/components/common/header'
 import TabPanes from '@/components/common/tabPanes'
 import { connect } from 'react-redux'
-import actions from '@/store/actions'
+import * as actions from '@/store/actions'
 import styles from './Home.module.less'
-
-const mapStateToProps = (state: any) => {
-  const { userInfo, collapsed } = state.storeData
-  return {
-    userInfo,
-    collapsed
-  }
-}
-
-const mapDispatchToProps = (dispatch: (arg0: any) => any) => ({
-  setStoreData: (type: string, payload: any) => dispatch(actions(type, payload))
-})
 
 const noNewTab = ['/login'] // 不需要新建 tab的页面
 const noCheckAuth = ['/', '/403'] // 不需要检查权限的页面
@@ -34,13 +22,20 @@ const checkAuth = (newPathname: string): boolean => {
   return isAuthorized(currentKey)
 }
 
-const Home: FC<any> = (props: any) => {
+interface Props extends ReduxProps {}
+
+const Home: FC<Props> = (props) => {
   const [tabActiveKey, setTabActiveKey] = useState<string>('home')
   const [panesItem, setPanesItem] = useState({})
   const pathRef: MutableRefObject<any> = useRef<string>('')
 
-  const { userInfo = {}, location, history, setStoreData, collapsed } = props
-  const { pathname, search } = location
+  const history = useHistory()
+  const { pathname, search } = useLocation()
+
+  const {
+    storeData: { collapsed, userInfo },
+    setStoreData
+  } = props
   const { token } = userInfo
 
   useEffect(() => {
@@ -121,6 +116,6 @@ const Home: FC<any> = (props: any) => {
 }
 
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withRouter(Home))
+  (state) => state,
+  actions
+)(Home)

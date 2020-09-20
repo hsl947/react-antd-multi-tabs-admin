@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, FC } from 'react'
-import { withRouter, Link, useLocation } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { Menu, Layout } from 'antd'
 
 import MyIconFont from '@/components/common/myIconfont'
@@ -7,26 +7,15 @@ import { getKeyName, flattenRoutes } from '@/assets/js/publicFunc'
 import menus from '@/config/menu'
 import logo from '@/assets/img/logo.png'
 import { connect } from 'react-redux'
-import actions from '@/store/actions'
+import * as actions from '@/store/actions'
 import styles from './Menu.module.less'
-
-const mapStateToProps = (state: any) => {
-  const { theme, userInfo, collapsed } = state.storeData
-  return {
-    theme,
-    userInfo,
-    collapsed
-  }
-}
-
-const mapDispatchToProps = (dispatch: (arg0: any) => any) => ({
-  setStoreData: (type: string, payload: any) => dispatch(actions(type, payload))
-})
 
 const { SubMenu } = Menu
 const flatMenu = flattenRoutes(menus)
 
-const MenuView: FC<any> = ({ theme, userInfo, collapsed }) => {
+interface Props extends ReduxProps {}
+
+const MenuView: FC<Props> = ({ storeData: { theme, userInfo, collapsed } }) => {
   const { pathname } = useLocation()
   const { tabKey: curKey = 'home' } = getKeyName(pathname)
   const [current, setCurrent] = useState(curKey)
@@ -148,6 +137,6 @@ const MenuView: FC<any> = ({ theme, userInfo, collapsed }) => {
 }
 
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withRouter(MenuView))
+  (state) => state,
+  actions
+)(MenuView)
