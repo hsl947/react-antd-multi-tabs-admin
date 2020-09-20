@@ -4,7 +4,8 @@ import React, {
   useEffect,
   useRef,
   MutableRefObject,
-  useCallback
+  useCallback,
+  Component
 } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
 import { Tabs, Alert, Dropdown, Menu } from 'antd'
@@ -27,8 +28,20 @@ const initPane = [
   }
 ]
 
+interface Props extends ReduxProps {
+  defaultActiveKey: string;
+  panesItem: {
+    title: string,
+    content: Component,
+    key: string,
+    closable: boolean,
+    path: string
+  };
+  tabActiveKey: string;
+}
+
 // 多页签组件
-const TabPanes: FC<any> = (props: any) => {
+const TabPanes: FC<Props> = (props) => {
   const [activeKey, setActiveKey] = useState<string>('')
   const [panes, setPanes] = useState<any[]>(initPane)
   const [isReload, setIsReload] = useState<boolean>(false)

@@ -1,4 +1,11 @@
-import React, { FC, useState, useEffect, useRef, MutableRefObject } from 'react'
+import React, {
+  FC,
+  useState,
+  useEffect,
+  useRef,
+  MutableRefObject,
+  Component
+} from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
 import MenuView from '@/components/common/menu'
 import classNames from 'classnames'
@@ -24,9 +31,23 @@ const checkAuth = (newPathname: string): boolean => {
 
 interface Props extends ReduxProps {}
 
+interface PanesItemProps {
+  title: string;
+  content: Component;
+  key: string;
+  closable: boolean;
+  path: string;
+}
+
 const Home: FC<Props> = (props) => {
   const [tabActiveKey, setTabActiveKey] = useState<string>('home')
-  const [panesItem, setPanesItem] = useState({})
+  const [panesItem, setPanesItem] = useState<PanesItemProps>({
+    title: '',
+    content: null,
+    key: '',
+    closable: false,
+    path: ''
+  })
   const pathRef: MutableRefObject<any> = useRef<string>('')
 
   const history = useHistory()
