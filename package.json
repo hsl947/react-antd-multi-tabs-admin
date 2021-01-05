@@ -17,7 +17,7 @@
     "@types/redux-promise": "^0.5.28",
     "ali-oss": "^6.7.0",
     "antd": "^4.2.0",
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "babel-plugin-import": "^1.12.2",
     "braft-editor": "^2.3.8",
     "classnames": "^2.2.6",
