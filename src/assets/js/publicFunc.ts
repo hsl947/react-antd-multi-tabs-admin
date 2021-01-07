@@ -30,9 +30,9 @@ export const hidePhone = (phone: string) =>
  * @param {object[]} arr 路由数组
  * @param {string} child 需要递归的字段名
  */
-export const flattenRoutes = (arr: Record<string, unknown>[]) =>
+export const flattenRoutes = (arr: CommonObjectType<unknown>[]) =>
   arr.reduce(
-    (prev: Record<string, unknown>[], item: Record<string, unknown>) => {
+    (prev: CommonObjectType<unknown>[], item: CommonObjectType<unknown>) => {
       if (Array.isArray(item.routes)) {
         prev.push(item)
       }
