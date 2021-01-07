@@ -1,11 +1,11 @@
-import React, { useRef, MutableRefObject, FC } from 'react'
+import React, { useRef, FC } from 'react'
 import { withRouter } from 'react-router-dom'
 import MyTable from '@/components/common/table'
 import { previewImg } from '@/assets/js/publicFunc'
 import commom from '@/api'
 
 const RoleList: FC = () => {
-  const tableRef: MutableRefObject<any> = useRef()
+  const tableRef: RefType = useRef()
 
   const preview = (url: string) =>
     previewImg(<img src={url} width="100%" alt="" />)
@@ -15,7 +15,7 @@ const RoleList: FC = () => {
       title: 'avatar',
       dataIndex: 'picture',
       align: 'center',
-      render: (picture: any) => (
+      render: (picture: Record<string, string>) => (
         <span onClick={() => preview(picture.thumbnail)}>
           <img src={picture.thumbnail} width="40" alt="" />
         </span>
@@ -25,7 +25,7 @@ const RoleList: FC = () => {
       title: 'name',
       dataIndex: 'name',
       align: 'center',
-      render: (name: any) => `${name.first} ${name.last}`
+      render: (name: Record<string, string>) => `${name.first} ${name.last}`
     },
     {
       title: 'gender',

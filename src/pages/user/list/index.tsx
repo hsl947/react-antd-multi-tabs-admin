@@ -1,4 +1,4 @@
-import React, { useRef, MutableRefObject, FC } from 'react'
+import React, { useRef, FC } from 'react'
 import { useHistory } from 'react-router-dom'
 import { Button, Input } from 'antd'
 import MyTable from '@/components/common/table'
@@ -7,7 +7,7 @@ import MySelect from '@/components/common/mySelect'
 import commom from '@/api'
 
 const UserList: FC = () => {
-  const tableRef: MutableRefObject<any> = useRef()
+  const tableRef: RefType = useRef()
   const history = useHistory()
 
   // 添加
@@ -57,7 +57,7 @@ const UserList: FC = () => {
     {
       title: 'avatar',
       dataIndex: 'picture',
-      render: (picture: any) => (
+      render: (picture: Record<string, string>) => (
         <span onClick={() => preview(picture.thumbnail)}>
           <img src={picture.thumbnail} width="40" alt="" />
         </span>
@@ -67,7 +67,7 @@ const UserList: FC = () => {
     {
       title: 'name',
       dataIndex: 'name',
-      render: (name: any) => `${name.first} ${name.last}`
+      render: (name: Record<string, string>) => `${name.first} ${name.last}`
     },
     {
       title: 'gender',

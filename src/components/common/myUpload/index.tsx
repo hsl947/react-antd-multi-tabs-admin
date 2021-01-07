@@ -6,7 +6,7 @@ import $axios from '@/utils/axios'
 interface Props {
   onChange?: (arg0: string) => void;
   value?: string;
-  accept?: any;
+  accept?: string[];
   size?: number;
   action?: string;
 }
@@ -28,14 +28,14 @@ const MyUpload: FC<Props> = (props) => {
     onChange(undefined)
   }
 
-  const onSuccess = ({ path }: any) => {
+  const onSuccess = ({ path }: CommonObjectType) => {
     setLoading(false)
     onChange(path)
   }
 
   const onError = (): void => {}
 
-  const uploadProps: any = {
+  const uploadProps = {
     action,
     onStart,
     customRequest({ file, filename }) {

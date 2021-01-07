@@ -3,7 +3,6 @@ import React, {
   useState,
   useEffect,
   useRef,
-  MutableRefObject,
   useCallback,
   Component
 } from 'react'
@@ -43,10 +42,10 @@ interface Props extends ReduxProps {
 // 多页签组件
 const TabPanes: FC<Props> = (props) => {
   const [activeKey, setActiveKey] = useState<string>('')
-  const [panes, setPanes] = useState<any[]>(initPane)
+  const [panes, setPanes] = useState<CommonObjectType[]>(initPane)
   const [isReload, setIsReload] = useState<boolean>(false)
-  const [selectedPanel, setSelectedPanel] = useState<any>({})
-  const pathRef: MutableRefObject<any> = useRef<string>('')
+  const [selectedPanel, setSelectedPanel] = useState<CommonObjectType>({})
+  const pathRef: RefType = useRef<string>('')
 
   const {
     storeData: { curTab, reloadPath },
@@ -65,7 +64,10 @@ const TabPanes: FC<Props> = (props) => {
   const storeTabs = useCallback(
     (ps): void => {
       const pathArr = ps.reduce(
-        (prev: any, next: any) => [...prev, next.path],
+        (prev: CommonObjectType[], next: CommonObjectType) => [
+          ...prev,
+          next.path
+        ],
         []
       )
       setStoreData('SET_CURTAB', pathArr)
@@ -75,19 +77,22 @@ const TabPanes: FC<Props> = (props) => {
 
   // 从本地存储中恢复已打开的tab列表
   const resetTabs = useCallback((): void => {
-    const initPanes = curTab.reduce((prev: any, next: any) => {
-      const { title, tabKey, component: Content } = getKeyName(next)
-      return [
-        ...prev,
-        {
-          title,
-          key: tabKey,
-          content: Content,
-          closable: tabKey !== 'home',
-          path: next
-        }
-      ]
-    }, [])
+    const initPanes = curTab.reduce(
+      (prev: CommonObjectType[], next: string) => {
+        const { title, tabKey, component: Content } = getKeyName(next)
+        return [
+          ...prev,
+          {
+            title,
+            key: tabKey,
+            content: Content,
+            closable: tabKey !== 'home',
+            path: next
+          }
+        ]
+      },
+      []
+    )
     const { tabKey } = getKeyName(pathname)
     setPanes(initPanes)
     setActiveKey(tabKey)
@@ -105,7 +110,9 @@ const TabPanes: FC<Props> = (props) => {
 
   // 移除tab
   const remove = (targetKey: string): void => {
-    const delIndex = panes.findIndex((item: any) => item.key === targetKey)
+    const delIndex = panes.findIndex(
+      (item: CommonObjectType) => item.key === targetKey
+    )
     panes.splice(delIndex, 1)
 
     // 删除非当前tab
@@ -137,7 +144,9 @@ const TabPanes: FC<Props> = (props) => {
 
   // tab点击
   const onTabClick = (targetKey: string): void => {
-    const { path } = panes.filter((item: any) => item.key === targetKey)[0]
+    const { path } = panes.filter(
+      (item: CommonObjectType) => item.key === targetKey
+    )[0]
     history.push({ pathname: path })
   }
 
@@ -185,7 +194,9 @@ const TabPanes: FC<Props> = (props) => {
     // 保存这次的路由地址
     pathRef.current = newPath
 
-    const index = panes.findIndex((_: any) => _.key === panesItem.key)
+    const index = panes.findIndex(
+      (_: CommonObjectType) => _.key === panesItem.key
+    )
     // 无效的新tab，return
     if (!panesItem.key || (index > -1 && newPath === panes[index].path)) {
       setActiveKey(tabActiveKey)
@@ -250,7 +261,7 @@ const TabPanes: FC<Props> = (props) => {
     </Menu>
   )
   // 阻止右键默认事件
-  const preventDefault = (e: any, panel: object) => {
+  const preventDefault = (e: CommonObjectType, panel: object) => {
     e.preventDefault()
     setSelectedPanel(panel)
   }
@@ -267,7 +278,7 @@ const TabPanes: FC<Props> = (props) => {
         onTabClick={onTabClick}
         type="editable-card"
       >
-        {panes.map((pane: any) => (
+        {panes.map((pane: CommonObjectType) => (
           <TabPane
             closable={pane.closable}
             key={pane.key}

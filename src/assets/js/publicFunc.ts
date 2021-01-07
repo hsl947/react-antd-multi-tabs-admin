@@ -5,7 +5,7 @@ import ErrorPage from '@/pages/public/errorPage'
 import { store } from '@/store'
 
 // 通用confirm方法
-export const commonConfirm = (title: any, cb: () => void) => {
+export const commonConfirm = (title: string, cb: () => void) => {
   const { confirm } = Modal
   confirm({
     okText: '确定',
@@ -30,15 +30,18 @@ export const hidePhone = (phone: string) =>
  * @param {object[]} arr 路由数组
  * @param {string} child 需要递归的字段名
  */
-export const flattenRoutes = (arr: any[]) =>
-  arr.reduce((prev: any[], item: { routes: any }) => {
-    if (Array.isArray(item.routes)) {
-      prev.push(item)
-    }
-    return prev.concat(
-      Array.isArray(item.routes) ? flattenRoutes(item.routes) : item
-    )
-  }, [])
+export const flattenRoutes = (arr: Record<string, unknown>[]) =>
+  arr.reduce(
+    (prev: Record<string, unknown>[], item: Record<string, unknown>) => {
+      if (Array.isArray(item.routes)) {
+        prev.push(item)
+      }
+      return prev.concat(
+        Array.isArray(item.routes) ? flattenRoutes(item.routes) : item
+      )
+    },
+    []
+  )
 
 /**
  * 根据路径获取路由的name和key
@@ -60,11 +63,11 @@ export const getKeyName = (path: string = '/403') => {
  * @param {*} action 要执行的操作
  * @param {function} cb 下一步操作回调
  */
-export const asyncAction = (action: any) => {
+export const asyncAction = (action: unknown) => {
   const wait = new Promise((resolve) => {
     resolve(action)
   })
-  return (cb: () => any) => {
+  return (cb: () => void) => {
     wait.then(() => setTimeout(() => cb()))
   }
 }
@@ -76,7 +79,7 @@ export const asyncAction = (action: any) => {
  * @param {function} cb 回调操作，可选
  */
 export const closeTabAction = (
-  history: any,
+  history: CommonObjectType,
   returnUrl: string = '/',
   cb?: () => void
 ) => {
@@ -129,7 +132,7 @@ export const closeTabAction = (
 /**
  * 获取地址栏 ?参数，返回键值对对象
  */
-export const getQuery = (): any => {
+export const getQuery = (): Record<string, string> => {
   const { href } = window.location
   const query = href.split('?')
   if (!query[1]) return {}
@@ -146,7 +149,7 @@ export const getQuery = (): any => {
  * 深拷贝操作，简单类型的对象的可以直接用 JSON.parse(JSON.stringify())或 [...]/{...}
  * @param {object} obj 需要拷贝的对象
  */
-export const deepClone = (obj: { [x: string]: any }) => {
+export const deepClone = (obj: CommonObjectType) => {
   if (
     obj === null ||
     typeof obj !== 'object' ||
@@ -287,10 +290,17 @@ export const limitDecimal = (val: string) =>
 /**
  * 处理用户信息并储存起来
  */
-export const setUserInfo = (userInfo: any, action: any, oldToken?: string) => {
+export const setUserInfo = (
+  userInfo: CommonObjectType,
+  action: (arg0: string, arg1: unknown) => unknown,
+  oldToken?: string
+) => {
   const { permission, userName, token } = userInfo
   const permissionArray = permission.reduce(
-    (prev: any, next: any) => [...prev, next.code],
+    (prev: Record<string, string>[], next: Record<string, string>) => [
+      ...prev,
+      next.code
+    ],
     []
   )
   localStorage.setItem('permissions', permissionArray)

@@ -16,7 +16,7 @@ const Breadcrumbs: FC<Props> = ({ breadcrumbs }) => {
   const history = useHistory()
   return (
     <Breadcrumb style={{ display: 'inline-block' }}>
-      {breadcrumbs.map((bc: any, index: number) => {
+      {breadcrumbs.map((bc: CommonObjectType, index: number) => {
         return (
           <Breadcrumb.Item key={bc.key}>
             <Button

@@ -6,8 +6,8 @@
 import { useEffect, useState, useCallback } from 'react'
 
 export const useServiceCallback = (
-  service: (arg0?: any) => Promise<any>
-): any[] => {
+  service: (arg0?: any) => Promise<{}>
+): CommonObjectType[] => {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const [response, setResponse] = useState(null)
@@ -32,10 +32,10 @@ export const useServiceCallback = (
 }
 
 const useService = (
-  service: (arg0?: any) => Promise<any>,
-  params?: any
+  service: (arg0?: any) => Promise<{}>,
+  params?: CommonObjectType
 ): object => {
-  const [callback, { loading, error, response }]: any = useServiceCallback(
+  const [callback, { loading, error, response }]: any[] = useServiceCallback(
     service
   )
   useEffect(() => {

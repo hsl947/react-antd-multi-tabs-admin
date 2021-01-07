@@ -15,6 +15,8 @@ const flatMenu = flattenRoutes(menus)
 
 interface Props extends ReduxProps {}
 
+type MenuType = Record<string, string>
+
 const MenuView: FC<Props> = ({ storeData: { theme, userInfo, collapsed } }) => {
   const { pathname } = useLocation()
   const { tabKey: curKey = 'home' } = getKeyName(pathname)
@@ -26,7 +28,7 @@ const MenuView: FC<Props> = ({ storeData: { theme, userInfo, collapsed } }) => {
       const higherKey = checkKey
       if (
         checkKey === '403' ||
-        flatMenu.some((item: any) => item.key === checkKey)
+        flatMenu.some((item: MenuType) => item.key === checkKey)
       ) {
         return higherKey
       }
@@ -49,7 +51,7 @@ const MenuView: FC<Props> = ({ storeData: { theme, userInfo, collapsed } }) => {
   }
 
   // 子菜单的标题
-  const subMenuTitle = (data: any): JSX.Element => {
+  const subMenuTitle = (data: MenuType): JSX.Element => {
     const { icon: MenuIcon, iconfont } = data
     return (
       <span>
@@ -64,7 +66,7 @@ const MenuView: FC<Props> = ({ storeData: { theme, userInfo, collapsed } }) => {
   }
 
   // 创建可跳转的多级子菜单
-  const createMenuItem = (data: any): JSX.Element => {
+  const createMenuItem = (data: MenuType): JSX.Element => {
     return (
       <Menu.Item className={styles.noselect} key={data.key} title={data.name}>
         <Link to={data.path}>{subMenuTitle(data)}</Link>
@@ -73,10 +75,10 @@ const MenuView: FC<Props> = ({ storeData: { theme, userInfo, collapsed } }) => {
   }
 
   // 创建可展开的第一级子菜单
-  const creatSubMenu = (data: any): JSX.Element => {
+  const creatSubMenu = (data: CommonObjectType): JSX.Element => {
     const menuItemList = []
-    data.routes.map((item: any) => {
-      const arr = permission.filter((ele: any) => item.key === ele.code)
+    data.routes.map((item: MenuType) => {
+      const arr = permission.filter((ele: MenuType) => item.key === ele.code)
       if (arr.length > 0) {
         menuItemList.push(renderMenu(item))
       }
@@ -91,17 +93,17 @@ const MenuView: FC<Props> = ({ storeData: { theme, userInfo, collapsed } }) => {
   }
 
   // 创建菜单树
-  const renderMenuMap = (list: any[]): JSX.Element[] =>
+  const renderMenuMap = (list: CommonObjectType): JSX.Element[] =>
     list.map((item) => renderMenu(item))
 
   // 判断是否有子菜单，渲染不同组件
-  function renderMenu(item: any) {
+  function renderMenu(item: MenuType) {
     return item.type === 'subMenu' ? creatSubMenu(item) : createMenuItem(item)
   }
 
   const setDefaultKey = flatMenu
-    .filter((item: any) => item.type === 'subMenu')
-    .reduce((prev: any, next: any) => [...prev, next.key], [])
+    .filter((item: MenuType) => item.type === 'subMenu')
+    .reduce((prev: MenuType[], next: MenuType) => [...prev, next.key], [])
 
   const showKeys = document.body.clientWidth <= 1366 ? [] : setDefaultKey
 

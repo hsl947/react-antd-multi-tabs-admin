@@ -9,6 +9,10 @@ declare module "classnames" {
 }
 
 interface ReduxProps {
-  storeData?: Record<any, any>;
+  storeData?: Record<string, any>;
   setStoreData?: (type: string, payload: any) => object;
 }
+
+type RefType = MutableRefObject<unknown> | ((instance: unknown) => void)
+
+type CommonObjectType = Record<string, any>

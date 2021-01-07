@@ -16,7 +16,7 @@ const FormView: FC = () => {
 
   const [loading, setLoading] = useState<boolean>(false)
 
-  const history: any = useHistory()
+  const history: CommonObjectType = useHistory()
 
   // 编辑状态
   useEffect(() => {

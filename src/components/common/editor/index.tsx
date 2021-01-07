@@ -14,14 +14,14 @@ interface Props {
 const Editor: FC<Props> = (props) => {
   const { value, onChange, uploadType } = props
 
-  const uploadFn = (param: any): void => {
+  const uploadFn = (param: CommonObjectType): void => {
     // 上传中
     const progressFn = (p: number) => {
       // 上传进度发生变化时调用param.progress
       param.progress(p * 100)
     }
 
-    const successFn = (res: any) => {
+    const successFn = (res: CommonObjectType) => {
       message.destroy()
       message.success({ content: '上传成功!', key: 'updatable', duration: 2 })
       // 假设服务端直接返回文件上传后的地址
@@ -36,7 +36,7 @@ const Editor: FC<Props> = (props) => {
       })
     }
 
-    const errorFn = (err: any) => {
+    const errorFn = (err: string) => {
       message.destroy()
       message.error('上传失败')
       // 上传发生错误时调用param.error
@@ -48,7 +48,7 @@ const Editor: FC<Props> = (props) => {
     // 上传视频到oss
     if (uploadType === 'video') {
       aliOss(progressFn, param.file)
-        .then((res: any) => {
+        .then((res: CommonObjectType) => {
           const video = {
             path: `https://xxx.oss-accelerate.aliyuncs.com${res.name}`
           }

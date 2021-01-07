@@ -3,15 +3,15 @@
  * 当 userId 有值，且有变化时，才会去请求接口
  */
 
-import { useRef, MutableRefObject } from 'react'
+import { useRef } from 'react'
 
 interface Props {
-  userIdRef: MutableRefObject<any>;
+  userIdRef: RefType;
   canRequest: boolean;
 }
 
 const useControl = (userId: string): Props => {
-  const userIdRef: MutableRefObject<any> = useRef()
+  const userIdRef: RefType = useRef()
 
   // 如果没有 userId，或者 userId 不变
   if (!userId || userIdRef.current === userId) {

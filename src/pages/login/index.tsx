@@ -27,7 +27,7 @@ const LoginForm: FC<Props> = ({
   }, [history, setStoreData, userInfo])
 
   // 触发登录方法
-  const onFinish = (values: any): void => {
+  const onFinish = (values: Record<string, string>): void => {
     const { userName, password } = values
     if (userName !== 'admin' && password !== '123456') {
       message.error('用户名或密码错误')

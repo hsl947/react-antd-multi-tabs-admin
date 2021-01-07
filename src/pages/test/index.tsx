@@ -80,7 +80,7 @@ const AuthTest: FC<Props> = ({ storeData: { userInfo }, setStoreData }) => {
         }
         bordered
         dataSource={permission}
-        renderItem={(item: any) => (
+        renderItem={(item: Record<string, string>) => (
           <List.Item>
             {item.name} - {item.code}
           </List.Item>

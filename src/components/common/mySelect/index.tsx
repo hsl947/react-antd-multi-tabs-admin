@@ -4,14 +4,14 @@ import { Select } from 'antd'
 const { Option } = Select
 
 interface Props {
-  data: any[];
+  data: Record<string, string>[];
   placeholder?: string;
   value?: string;
-  onChange?: (arg0: any) => void;
+  onChange?: (arg0: unknown) => void;
   width?: string | number;
   disabled?: boolean;
   onSearch?: () => void;
-  defaultValue?: any;
+  defaultValue?: string | number;
 }
 
 const MySelect: FC<Props> = (props) => {

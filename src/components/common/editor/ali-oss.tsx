@@ -4,8 +4,8 @@ import moment from 'moment'
 import common from '@/api'
 
 export default async function ossUpload(
-  progressFn?: (arg0?: any) => void,
-  uploadFile?: any
+  progressFn?: (arg0?: number) => void,
+  uploadFile?: CommonObjectType
 ) {
   const {
     accessKeyId,
@@ -23,7 +23,7 @@ export default async function ossUpload(
     })
   }
   // 要上传到oss上的路径
-  const uploadPath = (path: string, file: any) => {
+  const uploadPath = (path: string, file: CommonObjectType) => {
     return `/${path}/${moment().format('YYYYMMDD')}/${+new Date()}.${
       file.type.split('/')[1]
     }`
@@ -35,16 +35,16 @@ export default async function ossUpload(
     }
   }
   // 直传到oss方法
-  const uploadToOss = (path: string, file: any) => {
+  const uploadToOss = (path: string, file: CommonObjectType) => {
     message.loading({ content: '上传中...', key: 'updatable', duration: 0 })
     const url = uploadPath(path, file)
     return new Promise((resolve, reject) => {
       client()
         .multipartUpload(url, file, extraParams)
-        .then((data: any) => {
+        .then((data: unknown) => {
           resolve(data)
         })
-        .catch((error: any) => {
+        .catch((error: unknown) => {
           reject(error)
         })
     })

@@ -4,8 +4,7 @@ import React, {
   useImperativeHandle,
   useRef,
   ReactNode,
-  FC,
-  MutableRefObject
+  FC
 } from 'react'
 import { Table } from 'antd'
 import useService from '@/utils/tableHook'
@@ -30,15 +29,15 @@ import SearchView from '@/components/common/searchForm'
  */
 
 interface TableProps {
-  ref?: MutableRefObject<any> | ((instance: any) => void);
+  ref?: RefType;
   columns: object[];
-  apiFun: (arg0?: any[]) => Promise<{}>;
+  apiFun: (arg0?: unknown[]) => Promise<{}>;
   searchConfigList?: object[];
-  beforeSearch?: (arg0?: any) => void;
+  beforeSearch?: (arg0?: unknown) => void;
   extraProps?: object;
-  onSelectRow?: (arg0?: any[], arg1?: any[]) => void;
+  onSelectRow?: (arg0?: string[], arg1?: string[]) => void;
   rowKey?: string;
-  onFieldsChange?: (arg0?: any, arg1?: any) => void;
+  onFieldsChange?: (arg0?: unknown, arg1?: unknown) => void;
   sortConfig?: (arg0?: object) => any;
   expandedRowRender?: () => ReactNode;
   onExpand?: () => void;
@@ -49,16 +48,13 @@ interface TableProps {
 }
 
 const MyTable: FC<TableProps> = forwardRef(
-  (
-    props: TableProps,
-    ref: MutableRefObject<any> | ((instance: any) => void)
-  ) => {
+  (props: TableProps, ref: RefType) => {
     /**
      * @forwardRef
      * 引用父组件的ref实例，成为子组件的一个参数
      * 可以引用父组件的ref绑定到子组件自身的节点上.
      */
-    const searchForm: MutableRefObject<any> = useRef(null)
+    const searchForm: RefType = useRef(null)
     const {
       columns,
       apiFun,
@@ -79,7 +75,7 @@ const MyTable: FC<TableProps> = forwardRef(
 
     // 搜索参数,如果有特殊需要处理的参数，就处理
     const searchObj = searchConfigList.reduce(
-      (prev: any, next: any) =>
+      (prev: CommonObjectType, next: CommonObjectType) =>
         Object.assign(prev, {
           [next.key]: next.fn ? next.fn(next.initialValue) : next.initialValue
         }),
@@ -104,7 +100,7 @@ const MyTable: FC<TableProps> = forwardRef(
     const [curPageNo, setCurPageNo] = useState(initParams.pageNum)
     const [curPageSize, setCurPageSize] = useState(initParams.pageSize)
 
-    const { loading = false, response = {} }: any = useService(
+    const { loading = false, response = {} }: CommonObjectType = useService(
       apiFun,
       tableParams
     )
@@ -162,8 +158,8 @@ const MyTable: FC<TableProps> = forwardRef(
 
     // 分页、筛选、排序变化时触发
     const onTableChange = (
-      pagination: any,
-      filters: any,
+      pagination: CommonObjectType,
+      filters: CommonObjectType,
       sorter: object
     ): void => {
       // 如果有sort排序并且sort参数改变时，优先排序
@@ -205,7 +201,7 @@ const MyTable: FC<TableProps> = forwardRef(
           : searchForm.current.resetFields()
       },
       // 获取当前列表数据
-      getTableData(): any[] {
+      getTableData(): CommonObjectType[] {
         return rows
       }
     }))

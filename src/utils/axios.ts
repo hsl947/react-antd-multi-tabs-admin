@@ -19,7 +19,7 @@ const config: AxiosConfig = {
 
 const axios = Axios.create(config)
 
-const router: any = new HashRouter({})
+const router: CommonObjectType = new HashRouter({})
 
 // token失效，清除用户信息并返回登录界面
 const clearAll = () => {
@@ -44,13 +44,13 @@ axios.interceptors.request.use(
 
 // 返回后拦截
 axios.interceptors.response.use(
-  ({ data }): any => {
+  ({ data }): Promise<any> => {
     const { results } = data
     if (results.length) {
-      return {
+      return Promise.resolve({
         rows: results,
         total: 200
-      }
+      })
     }
     return Promise.reject(data)
   },
@@ -69,7 +69,7 @@ axios.interceptors.response.use(
 )
 
 // post请求
-axios.post = (url: string, params?: object): any =>
+axios.post = (url: string, params?: object): Promise<any> =>
   axios({
     method: 'post',
     url,
@@ -77,7 +77,7 @@ axios.post = (url: string, params?: object): any =>
   })
 
 // get请求
-axios.get = (url: string, params?: object): any =>
+axios.get = (url: string, params?: object): Promise<any> =>
   axios({
     method: 'get',
     url,

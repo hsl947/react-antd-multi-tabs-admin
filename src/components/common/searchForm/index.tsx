@@ -1,29 +1,21 @@
-import React, {
-  forwardRef,
-  useImperativeHandle,
-  FC,
-  MutableRefObject
-} from 'react'
+import React, { forwardRef, useImperativeHandle, FC } from 'react'
 import { Form, Button } from 'antd'
 
 interface SearchProps {
-  ref?: MutableRefObject<any> | ((instance: any) => void);
+  ref?: RefType;
   config: object[];
   beforeSearch?: (arg0?: object) => void;
   handleSearch?: (arg0?: object) => void;
-  onFieldsChange?: (arg0?: any, arg1?: any) => void;
+  onFieldsChange?: (arg0?: unknown, arg1?: unknown) => void;
   onChange?: () => void;
 }
 
 const SearchForm: FC<SearchProps> = forwardRef(
-  (
-    props: SearchProps,
-    ref: MutableRefObject<any> | ((instance: any) => void)
-  ) => {
+  (props: SearchProps, ref: RefType) => {
     const { config, handleSearch, beforeSearch, onFieldsChange } = props
     const [form] = Form.useForm()
     const getFields = (): JSX.Element[] => {
-      return config.map((item: any) => {
+      return config.map((item: CommonObjectType) => {
         return (
           <Form.Item
             key={item.key}
@@ -44,13 +36,16 @@ const SearchForm: FC<SearchProps> = forwardRef(
     }
 
     const initialValues = config.reduce(
-      (prev: any, next: any) => ({ ...prev, [next.key]: next.initialValue }),
+      (prev: CommonObjectType, next: CommonObjectType) => ({
+        ...prev,
+        [next.key]: next.initialValue
+      }),
       {}
     )
 
     useImperativeHandle(ref, () => ({
       // 重置搜索字段
-      resetFields(field: any) {
+      resetFields(field: string[]) {
         return field ? form.resetFields([...field]) : form.resetFields()
       }
     }))

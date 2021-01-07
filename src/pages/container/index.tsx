@@ -1,11 +1,4 @@
-import React, {
-  FC,
-  useState,
-  useEffect,
-  useRef,
-  MutableRefObject,
-  Component
-} from 'react'
+import React, { FC, useState, useEffect, useRef, Component } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
 import MenuView from '@/components/common/menu'
 import classNames from 'classnames'
@@ -48,7 +41,7 @@ const Home: FC<Props> = (props) => {
     closable: false,
     path: ''
   })
-  const pathRef: MutableRefObject<any> = useRef<string>('')
+  const pathRef: RefType = useRef<string>('')
 
   const history = useHistory()
   const { pathname, search } = useLocation()
