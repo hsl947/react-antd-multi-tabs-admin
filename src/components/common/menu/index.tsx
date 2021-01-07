@@ -15,7 +15,7 @@ const flatMenu = flattenRoutes(menus)
 
 interface Props extends ReduxProps {}
 
-type MenuType = Record<string, string>
+type MenuType = CommonObjectType<string>
 
 const MenuView: FC<Props> = ({ storeData: { theme, userInfo, collapsed } }) => {
   const { pathname } = useLocation()

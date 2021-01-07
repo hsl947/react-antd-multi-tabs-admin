@@ -15,4 +15,4 @@ interface ReduxProps {
 
 type RefType = MutableRefObject<unknown> | ((instance: unknown) => void)
 
-type CommonObjectType = Record<string, any>
+type CommonObjectType<T = any> = Record<string, T>

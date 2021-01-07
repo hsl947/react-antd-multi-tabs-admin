@@ -132,7 +132,7 @@ export const closeTabAction = (
 /**
  * 获取地址栏 ?参数，返回键值对对象
  */
-export const getQuery = (): Record<string, string> => {
+export const getQuery = (): CommonObjectType<string> => {
   const { href } = window.location
   const query = href.split('?')
   if (!query[1]) return {}
@@ -297,7 +297,7 @@ export const setUserInfo = (
 ) => {
   const { permission, userName, token } = userInfo
   const permissionArray = permission.reduce(
-    (prev: Record<string, string>[], next: Record<string, string>) => [
+    (prev: CommonObjectType<string>[], next: CommonObjectType<string>) => [
       ...prev,
       next.code
     ],

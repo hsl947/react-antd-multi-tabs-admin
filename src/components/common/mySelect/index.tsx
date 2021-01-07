@@ -4,7 +4,7 @@ import { Select } from 'antd'
 const { Option } = Select
 
 interface Props {
-  data: Record<string, string>[];
+  data: CommonObjectType<string>[];
   placeholder?: string;
   value?: string;
   onChange?: (arg0: unknown) => void;

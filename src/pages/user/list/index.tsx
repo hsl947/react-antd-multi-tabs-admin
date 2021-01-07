@@ -57,7 +57,7 @@ const UserList: FC = () => {
     {
       title: 'avatar',
       dataIndex: 'picture',
-      render: (picture: Record<string, string>) => (
+      render: (picture: CommonObjectType<string>) => (
         <span onClick={() => preview(picture.thumbnail)}>
           <img src={picture.thumbnail} width="40" alt="" />
         </span>
@@ -67,7 +67,7 @@ const UserList: FC = () => {
     {
       title: 'name',
       dataIndex: 'name',
-      render: (name: Record<string, string>) => `${name.first} ${name.last}`
+      render: (name: CommonObjectType<string>) => `${name.first} ${name.last}`
     },
     {
       title: 'gender',
