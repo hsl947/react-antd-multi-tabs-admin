@@ -16,7 +16,7 @@
     "@types/react-router-dom": "^5.1.4",
     "@types/redux-promise": "^0.5.28",
     "ali-oss": "^6.7.0",
-    "antd": "^4.2.0",
+    "antd": "4.2.0",
     "axios": "^0.21.1",
     "babel-plugin-import": "^1.12.2",
     "braft-editor": "^2.3.8",
