@@ -8615,6 +8615,70 @@ tr.ant-table-expanded-row:hover > td {
 .ant-table-footer {
   border-radius: 0 0 2px 2px;
 }
+.ant-tabs.ant-tabs-card .ant-tabs-tab {
+  background: #fafafa;
+  border: 1px solid #f0f0f0;
+  border-radius: 2px 2px 0 0;
+}
+.ant-tabs.ant-tabs-card .ant-tabs-tab-active {
+  color: @link-color;
+  background: @layout-body-background;
+  border-color: #f0f0f0;
+  border-bottom: 1px solid @layout-body-background;
+}
+.ant-tabs.ant-tabs-card .ant-tabs-tab-active::before {
+  border-top: 2px solid transparent;
+}
+.ant-tabs.ant-tabs-card .ant-tabs-tab-disabled {
+  color: @disabled-color;
+}
+.ant-tabs.ant-tabs-card .ant-tabs-tab .ant-tabs-close-x {
+  color: @text-color-secondary;
+}
+.ant-tabs.ant-tabs-card .ant-tabs-tab .ant-tabs-close-x:hover {
+  color: @heading-color;
+}
+.ant-tabs-vertical.ant-tabs-card .ant-tabs-left-bar .ant-tabs-tab,
+.ant-tabs-vertical.ant-tabs-card .ant-tabs-right-bar .ant-tabs-tab {
+  border-bottom: 1px solid #f0f0f0;
+}
+.ant-tabs-vertical.ant-tabs-card.ant-tabs-left .ant-tabs-left-bar .ant-tabs-tab {
+  border-right: 0;
+  border-radius: 2px 0 0 2px;
+}
+.ant-tabs-vertical.ant-tabs-card.ant-tabs-right .ant-tabs-right-bar .ant-tabs-tab {
+  border-left: 0;
+  border-radius: 0 2px 2px 0;
+}
+.ant-tabs .ant-tabs-bottom-bar .ant-tabs-tab {
+  border-top-color: #f0f0f0;
+  border-bottom: 1px solid #f0f0f0;
+  border-radius: 0 0 2px 2px;
+}
+.ant-tabs .ant-tabs-bottom-bar .ant-tabs-tab-active {
+  color: @link-color;
+  border-top-color: @layout-body-background;
+}
+.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn{
+  color: @link-color;
+  font-weight: 500;
+}
+.ant-tabs.ant-tabs-card .ant-tabs-tab .ant-tabs-tab-remove {
+  color: @text-color-secondary;
+}
+.ant-tabs.ant-tabs-card .ant-tabs-tab .ant-tabs-tab-remove:hover {
+  color: @heading-color;
+}
+.ant-tabs-top > .ant-tabs-nav::before,
+.ant-tabs-bottom > .ant-tabs-nav::before,
+.ant-tabs-top > div > .ant-tabs-nav::before,
+.ant-tabs-bottom > div > .ant-tabs-nav::before {
+  border-bottom: 1px solid #f0f0f0;
+}
+.ant-tabs-card.ant-tabs-top > .ant-tabs-nav .ant-tabs-tab-active,
+.ant-tabs-card.ant-tabs-top > div > .ant-tabs-nav .ant-tabs-tab-active{
+  border-bottom-color: transparent;
+}
 .ant-tabs.ant-tabs-card .ant-tabs-card-bar .ant-tabs-tab {
   background: #fafafa;
   border: 1px solid #f0f0f0;
