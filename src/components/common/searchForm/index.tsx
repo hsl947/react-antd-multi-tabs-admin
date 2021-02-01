@@ -2,12 +2,11 @@ import React, { forwardRef, useImperativeHandle, FC } from 'react'
 import { Form, Button } from 'antd'
 
 interface SearchProps {
-  ref?: RefType;
   config: object[];
+  handleSearch: (arg0?: object) => void;
+  ref: RefType;
   beforeSearch?: (arg0?: object) => void;
-  handleSearch?: (arg0?: object) => void;
   onFieldsChange?: (arg0?: unknown, arg1?: unknown) => void;
-  onChange?: () => void;
 }
 
 const SearchForm: FC<SearchProps> = forwardRef(
@@ -69,5 +68,10 @@ const SearchForm: FC<SearchProps> = forwardRef(
     )
   }
 )
+
+SearchForm.defaultProps = {
+  beforeSearch: () => {},
+  onFieldsChange: () => {}
+}
 
 export default SearchForm

@@ -12,6 +12,7 @@ import SearchView from '@/components/common/searchForm'
 
 /**
  * 封装列表、分页、多选、搜索组件
+ * @param {RefType} ref 表格的实例，用于调用内部方法
  * @param {object[]} columns 表格列的配置
  * @param {function} apiFun 表格数据的请求方法
  * @param {object[]} searchConfigList 搜索栏配置
@@ -29,22 +30,22 @@ import SearchView from '@/components/common/searchForm'
  */
 
 interface TableProps {
-  ref?: RefType;
   columns: object[];
   apiFun: (arg0?: unknown[]) => Promise<{}>;
+  ref?: RefType;
   searchConfigList?: object[];
-  beforeSearch?: (arg0?: unknown) => void;
   extraProps?: object;
-  onSelectRow?: (arg0?: string[], arg1?: string[]) => void;
   rowKey?: string;
-  onFieldsChange?: (arg0?: unknown, arg1?: unknown) => void;
-  sortConfig?: (arg0?: object) => any;
-  expandedRowRender?: () => ReactNode;
-  onExpand?: () => void;
   rowClassName?: string;
   small?: boolean;
   showHeader?: boolean;
   extraPagation?: string[];
+  beforeSearch?: (arg0?: unknown) => void;
+  onSelectRow?: (arg0?: string[], arg1?: string[]) => void;
+  onFieldsChange?: (arg0?: unknown, arg1?: unknown) => void;
+  sortConfig?: (arg0?: object) => any;
+  expandedRowRender?: () => ReactNode;
+  onExpand?: () => void;
 }
 
 const MyTable: FC<TableProps> = forwardRef(
@@ -58,19 +59,19 @@ const MyTable: FC<TableProps> = forwardRef(
     const {
       columns,
       apiFun,
-      searchConfigList = [],
-      beforeSearch = () => {},
+      searchConfigList,
       extraProps,
-      onSelectRow,
-      rowKey = 'id',
-      onFieldsChange,
-      sortConfig = () => {},
-      expandedRowRender,
-      onExpand,
+      rowKey,
       rowClassName,
       small,
-      showHeader = true,
-      extraPagation = []
+      showHeader,
+      extraPagation,
+      beforeSearch,
+      onSelectRow,
+      onFieldsChange,
+      sortConfig,
+      expandedRowRender,
+      onExpand
     } = props
 
     // 搜索参数,如果有特殊需要处理的参数，就处理
@@ -90,13 +91,15 @@ const MyTable: FC<TableProps> = forwardRef(
       pageSize: 20
     }
 
-    // 列表搜索参数
+    // 多选框的选择值
     const [selectedKeys, setSelectedKeys] = useState([])
-
+    // 列表所有的筛选参数（包括搜索、分页、排序等）
     const [tableParams, setTableParams] = useState(initParams)
+    // 列表搜索参数
     const [searchParams, setSearchParams] = useState(searchObj)
+    // 列表排序参数
     const [sortParams, setSortParams] = useState({})
-
+    // 列表分页参数
     const [curPageNo, setCurPageNo] = useState(initParams.pageNum)
     const [curPageSize, setCurPageSize] = useState(initParams.pageSize)
 
@@ -104,8 +107,8 @@ const MyTable: FC<TableProps> = forwardRef(
       apiFun,
       tableParams
     )
-    const validData = response && response.total ? response : {}
-    const { rows = [], total } = validData
+    const validData = response?.total ? response : {}
+    const { rows: tableData = [], total } = validData
 
     // 执行搜索操作
     const handleSearch = (val: object): void => {
@@ -202,12 +205,13 @@ const MyTable: FC<TableProps> = forwardRef(
       },
       // 获取当前列表数据
       getTableData(): CommonObjectType[] {
-        return rows
+        return tableData
       }
     }))
 
     return (
       <div>
+        {/* 搜索栏 */}
         {searchConfigList.length > 0 && (
           <SearchView
             ref={searchForm}
@@ -217,12 +221,13 @@ const MyTable: FC<TableProps> = forwardRef(
             onFieldsChange={onFieldsChange}
           />
         )}
+        {/* 列表 */}
         <Table
           {...showCheckbox}
           {...showExpend}
           rowKey={rowKey}
           loading={loading}
-          dataSource={rows}
+          dataSource={tableData}
           columns={columns}
           onChange={onTableChange}
           size={tableSize}
@@ -242,5 +247,22 @@ const MyTable: FC<TableProps> = forwardRef(
     )
   }
 )
+
+MyTable.defaultProps = {
+  searchConfigList: [],
+  ref: null,
+  extraProps: {},
+  rowKey: 'id',
+  rowClassName: '',
+  small: false,
+  showHeader: true,
+  extraPagation: [],
+  beforeSearch: () => {},
+  onSelectRow: () => {},
+  onFieldsChange: () => {},
+  sortConfig: () => {},
+  expandedRowRender: null,
+  onExpand: () => {}
+}
 
 export default MyTable
