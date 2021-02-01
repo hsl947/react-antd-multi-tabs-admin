@@ -7,12 +7,8 @@
 于是自己从以前的框架上改造，搭了这么一个精简版框架，用得也舒服，原创🤪。
 
 [预览地址](https://www.hongshaoli.com/antd-admin)
-![](https://github.com/hsl947/hsl947.github.io/raw/master/images/antd-admin-1.png)
-![](https://github.com/hsl947/hsl947.github.io/raw/master/images/antd-admin-2.png)
-![](https://github.com/hsl947/hsl947.github.io/raw/master/images/antd-admin-3.png)
-![](https://github.com/hsl947/hsl947.github.io/raw/master/images/antd-admin-4.png)
-![](https://github.com/hsl947/hsl947.github.io/raw/master/images/antd-admin-5.png)
 </div>
+<br />
 
 ## 特性
 
@@ -36,6 +32,16 @@
 ## 近期规划
 
 - 集成单元测试 jest + enzyme，争取覆盖率100%💪🏻💪🏻（学习中🤫）
+<br />
+
+### 预览图
+
+![](https://github.com/hsl947/hsl947.github.io/raw/master/images/antd-admin-1.png)
+![](https://github.com/hsl947/hsl947.github.io/raw/master/images/antd-admin-2.png)
+![](https://github.com/hsl947/hsl947.github.io/raw/master/images/antd-admin-3.png)
+![](https://github.com/hsl947/hsl947.github.io/raw/master/images/antd-admin-4.png)
+![](https://github.com/hsl947/hsl947.github.io/raw/master/images/antd-admin-5.png)
+<br />
 
 ## 使用
 
