@@ -101,6 +101,41 @@ const checkAuth = (newPathname: string): boolean => {
 
 ```
 
+```
+# src/components/common/tabPanes/index.tsx
+
+// 移除tab
+const remove = (targetKey: string): void => {
+  const delIndex = panes.findIndex(
+    (item: CommonObjectType) => item.key === targetKey
+  )
+  panes.splice(delIndex, 1)
+
+  // 删除非当前tab
+  if (targetKey !== activeKey) {
+    const nextKey = activeKey
+    setPanes(panes)
+    setActiveKey(nextKey)
+    storeTabs(panes)
+    return
+  }
+
+  // 删除当前tab，地址往前推
+  const nextPath = curTab[delIndex - 1]
+  const { tabKey } = getKeyName(nextPath)
+  // 如果当前tab关闭后，上一个tab无权限，就一起关掉
+  // if (!isAuthorized(tabKey) && nextPath !== '/') {
+  //   remove(tabKey)
+  //   history.push(curTab[delIndex - 2])
+  // } else {
+  //   history.push(nextPath)
+  // }
+  history.push(nextPath)
+  setPanes(panes)
+  storeTabs(panes)
+}
+```
+
 ### Redux 的使用说明
 ```
 # 在/src/store/actionTypes/index.tsx 定义新字段，格式如下
