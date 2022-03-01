@@ -50,7 +50,11 @@ const addOptimization = () => (config) => {
         threshold: 1024
       }),
       new webpack.optimize.AggressiveMergingPlugin(), //合并块
-      new webpack.optimize.ModuleConcatenationPlugin()
+      new webpack.optimize.ModuleConcatenationPlugin(),
+      new webpack.DefinePlugin({
+        'process.env.NODE_ENV': JSON.stringify('production')
+        // 标题或其他...
+      })
     )
   }
   return config
