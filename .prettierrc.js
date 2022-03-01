@@ -10,6 +10,6 @@ module.exports = {
   singleQuote: true,
   jsxSingleQuote: false,
   endOfLine: 'lf',
-  parser: 'babel',
+  // parser: 'babel', // 解析器 和 typescript 冲突
   proseWrap: 'always'
 }
