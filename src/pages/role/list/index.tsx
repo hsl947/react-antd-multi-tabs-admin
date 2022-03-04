@@ -2,7 +2,7 @@ import React, { useRef, FC } from 'react'
 import { withRouter } from 'react-router-dom'
 import MyTable from '@/components/common/table'
 import { previewImg } from '@/assets/js/publicFunc'
-import commom from '@/api'
+import common from '@/api'
 
 const RoleList: FC = () => {
   const tableRef: RefType = useRef()
@@ -47,7 +47,7 @@ const RoleList: FC = () => {
   return (
     <>
       <MyTable
-        apiFun={commom.getList}
+        apiFun={common.getList}
         columns={columns}
         ref={tableRef}
         extraProps={{ results: 10 }}

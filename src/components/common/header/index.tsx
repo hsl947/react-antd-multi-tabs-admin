@@ -6,6 +6,7 @@ import Breadcrumb from '@/components/common/breadcrumb'
 import { connect } from 'react-redux'
 import * as actions from '@/store/actions'
 import style from './Header.module.less'
+import { Icon } from '@iconify/react'
 
 interface Props extends ReduxProps {}
 
@@ -30,17 +31,6 @@ const Header: FC<Props> = ({
     <Menu>
       <Menu.Item onClick={logout}>
         <span>退出登录</span>
-      </Menu.Item>
-    </Menu>
-  )
-
-  const changeMenu = (
-    <Menu>
-      <Menu.Item onClick={() => changeTheme('')}>
-        <span>暗黑主题</span>
-      </Menu.Item>
-      <Menu.Item onClick={() => changeTheme('default')}>
-        <span>亮白主题</span>
       </Menu.Item>
     </Menu>
   )
@@ -87,9 +77,21 @@ const Header: FC<Props> = ({
           <span>{userName}</span>
         </span>
       </Dropdown>
-      <Dropdown overlay={changeMenu}>
-        <div title="更换主题" className="fr webTheme" />
-      </Dropdown>
+      <div className={`fr ${style.themeSwitchWrapper}`}>
+        <div
+          className={
+            style.themeSwitch +
+            ' ' +
+            (theme === 'default' ? '' : style.themeSwitchDark)
+          }
+          title="更换主题"
+          onClick={() => changeTheme(theme === 'default' ? 'dark' : 'default')}
+        >
+          <div className={style.themeSwitchInner}></div>
+          <Icon icon="emojione:sun" />
+          <Icon icon="bi:moon-stars-fill" color="#ffe62e" />
+        </div>
+      </div>
       <a
         className="fr"
         href="https://github.com/hsl947/react-antd-multi-tabs-admin"

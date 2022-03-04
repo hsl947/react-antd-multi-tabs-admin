@@ -69,6 +69,7 @@ axios.interceptors.response.use(
 )
 
 // post请求
+// @ts-ignore
 axios.post = (url: string, params?: object): Promise<any> =>
   axios({
     method: 'post',
