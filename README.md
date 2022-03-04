@@ -219,6 +219,8 @@ setStoreData('SET_ACTION', '')
 
 <p>开源不易，请我们喝一杯咖啡，我们会更有动力 :smiley:</p>
 <p>Open source is not easy, invite us to drink a cup of coffee, we will be more motivated.</p>
-<img src="./sponsor-imgs/wx.jpg" height="120"/>
-<img src="./sponsor-imgs/zfb.jpg" height="120"/>
-<img src="./sponsor-imgs/eth.png" height="120"/>
+<div>
+  <img src="./sponsor-imgs/wx.jpg" height="200" style="display: inline-block;"/>
+  <img src="./sponsor-imgs/zfb.jpg" height="200" style="display: inline-block;"/>
+  <img src="./sponsor-imgs/eth.png" height="200" style="display: inline-block;"/>
+</div>
