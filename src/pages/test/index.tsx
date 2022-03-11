@@ -12,7 +12,7 @@ interface Props extends ReduxProps {}
 
 const AuthTest: FC<Props> = ({ storeData: { userInfo }, setStoreData }) => {
   const history = useHistory()
-  const { userName, permission } = userInfo
+  const { username, permission } = userInfo
 
   // 切换权限
   const changeAuth = () => {
@@ -64,7 +64,7 @@ const AuthTest: FC<Props> = ({ storeData: { userInfo }, setStoreData }) => {
   return (
     <>
       <Text style={{ margin: 20 }}>
-        当前用户：<Text code>{userName}</Text>
+        当前用户：<Text code>{username}</Text>
       </Text>
       <br />
       <Text style={{ margin: 20 }}>
@@ -94,7 +94,4 @@ const AuthTest: FC<Props> = ({ storeData: { userInfo }, setStoreData }) => {
   )
 }
 
-export default connect(
-  (state) => state,
-  actions
-)(AuthTest)
+export default connect((state) => state, actions)(AuthTest)

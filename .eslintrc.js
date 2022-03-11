@@ -6,9 +6,11 @@ module.exports = {
     'plugin:prettier/recommended' // prettier配置
   ],
   rules: {
+    camelcase: 0,
     'import/no-extraneous-dependencies': 0,
     'import/extensions': 'off',
     'import/no-unresolved': 0,
+    'import/prefer-default-export': 0,
     'default-param-last': 0,
     'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx', 'tsx'] }], // 关闭airbnb对于jsx必须写在jsx文件中的设置
     'react/prop-types': 'off', // 关闭airbnb对于必须添加prop-types的校验
@@ -34,6 +36,8 @@ module.exports = {
     'react/jsx-props-no-spreading': 0,
     // 禁止使用 var
     'no-var': 'error',
+    // 可以使用 debugger
+    // 'no-debugger': 'off',
     semi: ['error', 'never'],
     quotes: [2, 'single'],
     // @fixable 必须使用 === 或 !==，禁止使用 == 或 !=，与 null 比较时除外
@@ -44,8 +48,8 @@ module.exports = {
         null: 'ignore'
       }
     ],
-    'no-use-before-define': ['error', { functions: false }],
-    'prettier/prettier': ['error', { parser: 'flow' }]
+    'no-use-before-define': ['error', { functions: false }]
+    // 'prettier/prettier': ['error', {parser: 'flow'}] // 有bug
   },
   overrides: [
     {

@@ -4,10 +4,10 @@ import { store } from '@/store'
 import { HashRouter } from 'react-router-dom'
 
 interface AxiosConfig {
-  timeout: number;
+  timeout: number
   headers: {
     'Content-Type': string
-  };
+  }
 }
 
 const config: AxiosConfig = {
@@ -44,15 +44,19 @@ axios.interceptors.request.use(
 
 // 返回后拦截
 axios.interceptors.response.use(
-  ({ data }): Promise<any> => {
-    const { results } = data
-    if (results.length) {
+  (response): Promise<any> => {
+    // todo 应考虑在全局统一化响应数据格式.如果没有,则应移除这个拦截器
+    const { data } = response
+    if (data.results?.length) {
       return Promise.resolve({
-        rows: results,
-        total: 200
+        rows: data.results,
+        total: data.results.length
       })
     }
-    return Promise.reject(data)
+    if (data) {
+      return Promise.resolve(data)
+    }
+    return Promise.reject(response)
   },
   (err) => {
     try {
@@ -63,7 +67,7 @@ axios.interceptors.response.use(
       clearAll()
     }
     message.destroy()
-    message.error('网络异常')
+    message.error('请求失败')
     return Promise.reject(err)
   }
 )

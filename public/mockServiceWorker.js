@@ -2,7 +2,7 @@
 /* tslint:disable */
 
 /**
- * Mock Service Worker (0.38.1).
+ * Mock Service Worker (0.38.2).
  * @see https://github.com/mswjs/msw
  * - Please do NOT modify this file.
  * - Please do NOT serve this file on production.
@@ -12,15 +12,15 @@ const INTEGRITY_CHECKSUM = '02f4ad4a2797f85668baf196e553d929'
 const bypassHeaderName = 'x-msw-bypass'
 const activeClientIds = new Set()
 
-self.addEventListener('install', function() {
+self.addEventListener('install', function () {
   return self.skipWaiting()
 })
 
-self.addEventListener('activate', async function(event) {
+self.addEventListener('activate', async function (event) {
   return self.clients.claim()
 })
 
-self.addEventListener('message', async function(event) {
+self.addEventListener('message', async function (event) {
   const clientId = event.source.id
 
   if (!clientId || !self.clients) {
@@ -38,7 +38,7 @@ self.addEventListener('message', async function(event) {
   switch (event.data) {
     case 'KEEPALIVE_REQUEST': {
       sendToClient(client, {
-        type: 'KEEPALIVE_RESPONSE'
+        type: 'KEEPALIVE_RESPONSE',
       })
       break
     }
@@ -46,7 +46,7 @@ self.addEventListener('message', async function(event) {
     case 'INTEGRITY_CHECK_REQUEST': {
       sendToClient(client, {
         type: 'INTEGRITY_CHECK_RESPONSE',
-        payload: INTEGRITY_CHECKSUM
+        payload: INTEGRITY_CHECKSUM,
       })
       break
     }
@@ -56,7 +56,7 @@ self.addEventListener('message', async function(event) {
 
       sendToClient(client, {
         type: 'MOCKING_ENABLED',
-        payload: true
+        payload: true,
       })
       break
     }
@@ -116,7 +116,7 @@ async function handleRequest(event, requestId) {
   // Ensure MSW is active and ready to handle the message, otherwise
   // this message will pend indefinitely.
   if (client && activeClientIds.has(client.id)) {
-    ;(async function() {
+    ;(async function () {
       const clonedResponse = response.clone()
       sendToClient(client, {
         type: 'RESPONSE',
@@ -129,8 +129,8 @@ async function handleRequest(event, requestId) {
           body:
             clonedResponse.body === null ? null : await clonedResponse.text(),
           headers: serializeHeaders(clonedResponse.headers),
-          redirected: clonedResponse.redirected
-        }
+          redirected: clonedResponse.redirected,
+        },
       })
     })()
   }
@@ -164,7 +164,7 @@ async function getResponse(event, client, requestId) {
     delete cleanRequestHeaders[bypassHeaderName]
 
     const originalRequest = new Request(requestClone, {
-      headers: new Headers(cleanRequestHeaders)
+      headers: new Headers(cleanRequestHeaders),
     })
 
     return fetch(originalRequest)
@@ -191,15 +191,15 @@ async function getResponse(event, client, requestId) {
       referrerPolicy: request.referrerPolicy,
       body,
       bodyUsed: request.bodyUsed,
-      keepalive: request.keepalive
-    }
+      keepalive: request.keepalive,
+    },
   })
 
   switch (clientMessage.type) {
     case 'MOCK_SUCCESS': {
       return delayPromise(
         () => respondWithMock(clientMessage),
-        clientMessage.payload.delay
+        clientMessage.payload.delay,
       )
     }
 
@@ -222,11 +222,13 @@ async function getResponse(event, client, requestId) {
       console.error(
         `\
 [MSW] Uncaught exception in the request handler for "%s %s":
+
 ${parsedBody.location}
+
 This exception has been gracefully handled as a 500 response, however, it's strongly recommended to resolve this error, as it indicates a mistake in your code. If you wish to mock an error response, please see this guide: https://mswjs.io/docs/recipes/mocking-error-responses\
 `,
         request.method,
-        request.url
+        request.url,
       )
 
       return respondWithMock(clientMessage)
@@ -236,7 +238,7 @@ This exception has been gracefully handled as a 500 response, however, it's stro
   return getOriginalResponse()
 }
 
-self.addEventListener('fetch', function(event) {
+self.addEventListener('fetch', function (event) {
   const { request } = event
   const accept = request.headers.get('accept') || ''
 
@@ -271,7 +273,7 @@ self.addEventListener('fetch', function(event) {
         console.warn(
           '[MSW] Successfully emulated a network error for the "%s %s" request.',
           request.method,
-          request.url
+          request.url,
         )
         return
       }
@@ -282,9 +284,9 @@ self.addEventListener('fetch', function(event) {
 [MSW] Caught an exception from the "%s %s" request (%s). This is probably not a problem with Mock Service Worker. There is likely an additional logging output above.`,
         request.method,
         request.url,
-        `${error.name}: ${error.message}`
+        `${error.name}: ${error.message}`,
       )
-    })
+    }),
   )
 })
 
@@ -323,12 +325,12 @@ function delayPromise(cb, duration) {
 function respondWithMock(clientMessage) {
   return new Response(clientMessage.payload.body, {
     ...clientMessage.payload,
-    headers: clientMessage.payload.headers
+    headers: clientMessage.payload.headers,
   })
 }
 
 function uuidv4() {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
     const r = (Math.random() * 16) | 0
     const v = c == 'x' ? r : (r & 0x3) | 0x8
     return v.toString(16)

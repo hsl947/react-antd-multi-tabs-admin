@@ -1,18 +1,18 @@
 interface StoreState {
   userInfo: {
-    userName: string,
-    permission: string[],
+    username: string
+    permission: string[]
     token: string
-  };
-  collapsed: boolean;
-  curTab: string[];
-  theme: string;
-  reloadPath: string;
+  }
+  collapsed: boolean
+  curTab: string[]
+  theme: string
+  reloadPath: string
 }
 
 const initState: StoreState = {
   userInfo: {
-    userName: '',
+    username: '',
     permission: [],
     token: ''
   }, // 用户信息

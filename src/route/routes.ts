@@ -7,6 +7,7 @@ import UserEdit from '@/pages/user/edit'
 import RoleList from '@/pages/role/list'
 
 import AuthTest from '@/pages/test'
+import { TestApiLoad } from './TempTestRouteComponent'
 
 /**
  * path 跳转的路径
@@ -69,6 +70,13 @@ const menus = [
     exact: true,
     key: 'auth:test:view',
     component: AuthTest
+  },
+  {
+    path: '/test-api',
+    name: '测试api',
+    exact: true,
+    key: '/test-api',
+    component: TestApiLoad
   },
   {
     path: '/403',

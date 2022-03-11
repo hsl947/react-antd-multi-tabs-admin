@@ -1,11 +1,17 @@
 //用于修改webpack默认配置
-const { override, addWebpackAlias, fixBabelImports, addLessLoader, addBabelPlugin } = require('customize-cra')
+const {
+  override,
+  addWebpackAlias,
+  fixBabelImports,
+  addLessLoader
+} = require('customize-cra')
 const CompressionWebpackPlugin = require('compression-webpack-plugin')
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
-  .BundleAnalyzerPlugin
+const BundleAnalyzerPlugin =
+  require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const webpack = require('webpack')
 const path = require('path')
-const darkThemeVars = require('antd/dist/dark-theme');
+const darkThemeVars = require('antd/dist/dark-theme')
+const { addReactRefresh } = require('customize-cra-react-refresh')
 
 // 分析打包大小
 const addAnalyze = () => (config) => {
@@ -59,7 +65,6 @@ const addOptimization = () => (config) => {
   }
   return config
 }
-
 module.exports = override(
   // addAnalyze(),
   // 配置路径别名
@@ -67,20 +72,23 @@ module.exports = override(
     '@': path.resolve('src')
   }),
   addOptimization(),
+  addReactRefresh(),
   // 针对antd 实现按需打包：根据import来打包 (使用babel-plugin-import)
-  fixBabelImports('import',{
-		libraryName:'antd',
-		libraryDirectory:'es',
-		style: true//自动打包相关的样式 默认为 style:'css'
-	}),
+  fixBabelImports('import', {
+    libraryName: 'antd',
+    libraryDirectory: 'es',
+    style: true //自动打包相关的样式 默认为 style:'css'
+  }),
   // 使用less-loader对源码重的less的变量进行重新制定，设置antd自定义主题
-	addLessLoader({
+  addLessLoader({
     javascriptEnabled: true,
-		modifyVars:{
-      'hack': `true;@import "${require.resolve('antd/lib/style/color/colorPalette.less')}";`,
+    modifyVars: {
+      hack: `true;@import "${require.resolve(
+        'antd/lib/style/color/colorPalette.less'
+      )}";`,
       ...darkThemeVars,
-      '@primary-color':'#6e41ff',
+      '@primary-color': '#6e41ff'
     },
-		localIdentName: '[local]--[hash:base64:5]' // use less-modules
+    localIdentName: '[local]--[hash:base64:5]' // use less-modules
   })
 )
