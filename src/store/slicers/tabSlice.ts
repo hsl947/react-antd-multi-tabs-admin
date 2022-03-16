@@ -58,10 +58,7 @@ export const { setTabs, setCurrentTab, setReloadPath } = tabSlice.actions
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
 // in the slice file. For example: `useSelector((state: RootState) => state.counter.value)`
-export const selectTabs = (state: RootState) => {
-  debugger
-  return state.tab.curTab
-}
+export const selectTabs = (state: RootState) => state.tab.curTab
 export const selectCurrentTab = (state: RootState) => state.tab.currentTab
 export const selectReloadPath = (state: RootState) => state.tab.reloadPath
 
