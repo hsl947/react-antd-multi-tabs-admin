@@ -9,6 +9,5 @@ export interface UserInfo {
   displayName?: string
   password?: string
   token: string
-  permission?: Permission[]
-  roleList?: string[]
+  permission: Permission[]
 }

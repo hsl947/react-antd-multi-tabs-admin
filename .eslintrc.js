@@ -34,6 +34,7 @@ module.exports = {
     'jsx-control-statements/jsx-use-if-tag': 0,
     'react/no-array-index-key': 0,
     'react/jsx-props-no-spreading': 0,
+    'no-param-reassign': 0, // redux/toolkit使用immer库, 保证数据不被修改
     // 禁止使用 var
     'no-var': 'error',
     // 可以使用 debugger

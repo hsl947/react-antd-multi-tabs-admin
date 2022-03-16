@@ -9,7 +9,7 @@ import zhCN from 'antd/es/locale/zh_CN'
 import moment from 'moment'
 import 'moment/locale/zh-cn'
 import { loadOidcUser } from '@/config/oidc_setting'
-import { setStoreData } from '@/store/actions'
+import { setUserInfo } from '@/store/slicers/userSlice'
 import App from './App'
 import '@/assets/css/public.less'
 import '@/utils'
@@ -39,9 +39,9 @@ if (process.env.NODE_ENV === 'development') {
  * @see https://mswjs.io/docs/recipes/deferred-mounting
  */
 appReady.then(async () => {
-  await loadOidcUser((provided) => {
-    store.dispatch(setStoreData('SET_USERINFO', provided))
-  })
+  await loadOidcUser(
+    (provided) => provided && store.dispatch(setUserInfo(provided))
+  )
 
   ReactDOM.render(
     <ReduxProvider store={store}>

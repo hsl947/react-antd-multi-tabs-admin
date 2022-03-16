@@ -6,8 +6,9 @@ import { Layout, BackTop } from 'antd'
 import { getKeyName, isAuthorized } from '@/assets/js/publicFunc'
 import Header from '@/components/common/header'
 import TabPanes from '@/components/common/tabPanes'
-import { connect } from 'react-redux'
-import * as actions from '@/store/actions'
+import { selectUserInfo } from '@/store/slicers/userSlice'
+import { useAppDispatch, useAppSelector } from '@/store/redux-hooks'
+import { selectCollapsed, setCollapsed } from '@/store/slicers/appSlice'
 import styles from './Home.module.less'
 
 const noNewTab = ['/login'] // 不需要新建 tab的页面
@@ -22,8 +23,6 @@ const checkAuth = (newPathname: string): boolean => {
   return isAuthorized(currentKey)
 }
 
-interface Props extends ReduxProps {}
-
 interface PanesItemProps {
   title: string
   content: Component
@@ -32,7 +31,10 @@ interface PanesItemProps {
   path: string
 }
 
-const Home: FC<Props> = (props) => {
+const Home: FC = () => {
+  const userInfo = useAppSelector(selectUserInfo)
+  const collapsed = useAppSelector(selectCollapsed)
+  const dispatch = useAppDispatch()
   const [tabActiveKey, setTabActiveKey] = useState<string>('home')
   const [panesItem, setPanesItem] = useState<PanesItemProps>({
     title: '',
@@ -46,15 +48,10 @@ const Home: FC<Props> = (props) => {
   const history = useHistory()
   const { pathname, search } = useLocation()
 
-  const {
-    storeData: { collapsed, userInfo },
-    setStoreData
-  } = props
-
   const { token } = userInfo
 
   useEffect(() => {
-    setStoreData('SET_COLLAPSED', document.body.clientWidth <= 1366)
+    dispatch(setCollapsed(document.body.clientWidth <= 1366))
 
     // 未登录
     if (!token && pathname !== '/login') {
@@ -102,7 +99,7 @@ const Home: FC<Props> = (props) => {
       path: newPath
     })
     setTabActiveKey(tabKey)
-  }, [history, pathname, search, setStoreData, token])
+  }, [history, pathname, search, token, dispatch])
 
   return (
     <Layout
@@ -130,4 +127,4 @@ const Home: FC<Props> = (props) => {
   )
 }
 
-export default connect((state) => state, actions)(Home)
+export default Home

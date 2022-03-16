@@ -5,6 +5,7 @@ import {
   UserManagerSettings,
   WebStorageStateStore
 } from 'oidc-client'
+import { UserInfo } from '@/app_models/user'
 
 class Constants {
   public static stsAuthority = process.env.REACT_APP_STS_URI as string // sts服务器
@@ -62,10 +63,8 @@ export const normalize_roles = (profile: Profile) => {
   return roles
 }
 
-interface OidcProvideUser {
-  username: string
-  displayName: string
-  token: string
+// oidc 外部用户, 适配之后的用户, 即为UserInfo wit
+interface OidcUser extends UserInfo {
   roleList?: any[]
   is_oidc_user: true
 }
@@ -74,48 +73,45 @@ interface OidcProvideUser {
 const timeout = (prom, time) =>
   Promise.race([prom(), new Promise((_r, rej) => setTimeout(rej, time))])
 
-export type OidcUserAdaptFn<TUser> = (user: User) => Promise<TUser>
+// 转换函数
+export type OidcUserAdaptFn<TUser extends OidcUser> = (
+  user: User
+) => Promise<TUser>
 
 // 默认的适配函数.此处你可以通过api查询进行转换
-async function defaultAdoptingUser<TUser extends OidcProvideUser>(
+async function defaultAdaptingUser<TUser extends OidcUser>(
   user: User
 ): Promise<TUser> {
-  const targetUser = {
+  // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+  const targetUser = <TUser>{
     username: user.profile.given_name || user.profile.name,
     displayName: user.profile.preferred_username || user.profile.given_name,
     token: user.access_token,
+    is_oidc_user: true,
     roleList: normalize_roles(user.profile)
     // todo permissions handler
   }
-  return targetUser as TUser
+  return targetUser
 }
 
-export async function callOidcLogin<TUser extends OidcProvideUser>(
-  storeCallback: (adoptedUser: TUser) => unknown,
-  adoptingFn = defaultAdoptingUser,
+export async function callOidcLogin<TUser extends OidcUser>(
+  storeCallback: (adoptedUser: TUser | null) => unknown,
+  adoptingFn = defaultAdaptingUser,
   time = 5000 // 限时,以免oidc服务器超时
 ) {
   const user: User = await timeout(() => userManager.signinRedirect(), time)
-  // console.log('已登录用户', user)
-  if (user) {
-    const userInfo = await adoptingFn<TUser>(user)
-    userInfo.is_oidc_user = true
-    storeCallback(userInfo)
+  if (storeCallback) {
+    storeCallback(user ? await adoptingFn<TUser>(user) : null)
   }
 }
 
-export async function loadOidcUser<TUser extends OidcProvideUser>(
-  storeCallback: (adoptedUser: TUser) => unknown,
-  adoptingFn = defaultAdoptingUser,
+export async function loadOidcUser<TUser extends OidcUser>(
+  storeCallback: (adoptedUser: TUser | null) => unknown, // 存储用户信息的回调
+  adoptingFn = defaultAdaptingUser, // 适配函数,即把oidc的用户信息转换为本地用户信息
   time = 5000 // 限时,以免oidc服务器超时
 ) {
   const user: User = await timeout(() => userManager.getUser(), time)
-  // console.log('已登录用户', user)
-  if (user) {
-    const userInfo = await adoptingFn<TUser>(user)
-    userInfo.is_oidc_user = true
-    storeCallback(userInfo)
-  }
+  storeCallback(user ? await adoptingFn<TUser>(user) : null)
 }
 
 export async function oidcLogout() {

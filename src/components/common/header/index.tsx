@@ -7,18 +7,24 @@ import {
   LoadingOutlined
 } from '@ant-design/icons'
 import Breadcrumb from '@/components/common/breadcrumb'
-import { connect } from 'react-redux'
-import * as actions from '@/store/actions'
 import { Icon } from '@iconify/react'
 import { oidcLogout } from '@/config/oidc_setting'
+import { useAppDispatch, useAppSelector } from '@/store/redux-hooks'
+import { selectUserInfo, setUserInfo } from '@/store/slicers/userSlice'
+import {
+  selectTheme,
+  setCollapsed as setCollapsedGlobal,
+  setTheme
+} from '@/store/slicers/appSlice'
+
 import style from './Header.module.less'
 
 interface Props extends ReduxProps {}
 
-const Header: FC<Props> = ({
-  storeData: { theme, userInfo },
-  setStoreData
-}) => {
+const Header: FC<Props> = () => {
+  const dispatch = useAppDispatch()
+  const theme = useAppSelector(selectTheme)
+  const userInfo = useAppSelector(selectUserInfo)
   const history = useHistory()
   const { username = '-' } = userInfo
   const firstWord = username.slice(0, 1)
@@ -29,15 +35,15 @@ const Header: FC<Props> = ({
     if (userInfo.is_oidc_user) {
       setLoading(true)
       await oidcLogout()
-      await setStoreData('SET_USERINFO', {})
+      dispatch(setUserInfo({})) // 清除用户信息 下同
     } else {
-      await setStoreData('SET_USERINFO', {})
+      dispatch(setUserInfo({}))
       history.replace({ pathname: '/login' })
     }
   }
 
   const changeTheme = (themes: string) => {
-    setStoreData('SET_THEME', themes)
+    dispatch(setTheme(themes))
   }
 
   const menu = (
@@ -51,7 +57,7 @@ const Header: FC<Props> = ({
 
   const toggle = (): void => {
     setCollapsed(!collapsed)
-    setStoreData('SET_COLLAPSED', !collapsed)
+    dispatch(setCollapsedGlobal(!collapsed))
   }
 
   // 更换主题
@@ -121,4 +127,4 @@ const Header: FC<Props> = ({
     </Layout.Header>
   )
 }
-export default connect((state) => state, actions)(Header)
+export default Header

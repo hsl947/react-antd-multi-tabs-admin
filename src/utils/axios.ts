@@ -33,7 +33,7 @@ const clearAll = () => {
 // 请求前拦截
 axios.interceptors.request.use(
   (req) => {
-    const { token = '' } = store.getState().storeData.userInfo || {}
+    const { token = '' } = store.getState().user.UserInfo || {}
     req.headers.token = token
     return req
   },

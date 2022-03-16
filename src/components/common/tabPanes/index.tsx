@@ -11,8 +11,13 @@ import { Tabs, Alert, Dropdown, Menu } from 'antd'
 import Home from '@/pages/home'
 import { getKeyName, isAuthorized } from '@/assets/js/publicFunc'
 import { SyncOutlined } from '@ant-design/icons'
-import { connect } from 'react-redux'
-import * as actions from '@/store/actions'
+import { useAppDispatch, useAppSelector } from '@/store/redux-hooks'
+import {
+  selectTabs,
+  selectReloadPath,
+  setTabs,
+  setReloadPath
+} from '@/store/slicers/tabSlice'
 import style from './TabPanes.module.less'
 
 const { TabPane } = Tabs
@@ -28,32 +33,29 @@ const initPane = [
 ]
 
 interface Props extends ReduxProps {
-  defaultActiveKey: string;
+  defaultActiveKey: string
   panesItem: {
-    title: string,
-    content: Component,
-    key: string,
-    closable: boolean,
+    title: string
+    content: Component
+    key: string
+    closable: boolean
     path: string
-  };
-  tabActiveKey: string;
+  }
+  tabActiveKey: string
 }
 
 // 多页签组件
 const TabPanes: FC<Props> = (props) => {
+  const dispatch = useAppDispatch()
+  const reloadPath = useAppSelector(selectReloadPath)
+  const curTab = useAppSelector(selectTabs)
   const [activeKey, setActiveKey] = useState<string>('')
   const [panes, setPanes] = useState<CommonObjectType[]>(initPane)
   const [isReload, setIsReload] = useState<boolean>(false)
   const [selectedPanel, setSelectedPanel] = useState<CommonObjectType>({})
   const pathRef: RefType = useRef<string>('')
 
-  const {
-    storeData: { curTab, reloadPath },
-    setStoreData,
-    defaultActiveKey,
-    panesItem,
-    tabActiveKey
-  } = props
+  const { defaultActiveKey, panesItem, tabActiveKey } = props
 
   const history = useHistory()
   const { pathname, search } = useLocation()
@@ -70,9 +72,9 @@ const TabPanes: FC<Props> = (props) => {
         ],
         []
       )
-      setStoreData('SET_CURTAB', pathArr)
+      dispatch(setTabs(pathArr))
     },
-    [setStoreData]
+    [dispatch]
   )
 
   // 从本地存储中恢复已打开的tab列表
@@ -157,9 +159,9 @@ const TabPanes: FC<Props> = (props) => {
       setIsReload(false)
     }, 1000)
 
-    setStoreData('SET_RELOADPATH', pathname + search)
+    dispatch(setReloadPath(pathname + search))
     setTimeout(() => {
-      setStoreData('SET_RELOADPATH', 'null')
+      dispatch(setReloadPath('null'))
     }, 500)
   }
 
@@ -313,7 +315,4 @@ const TabPanes: FC<Props> = (props) => {
   )
 }
 
-export default connect(
-  (state) => state,
-  actions
-)(TabPanes)
+export default TabPanes

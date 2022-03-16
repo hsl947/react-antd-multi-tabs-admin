@@ -4,19 +4,20 @@ import { LockOutlined, UserOutlined } from '@ant-design/icons'
 import { Form, Input, Button, message } from 'antd'
 import ReactCanvasNest from 'react-canvas-nest'
 import './login.less'
-import { connect } from 'react-redux'
 import Logo from '@/assets/img/logo.png'
-import { setUserInfo } from '@/assets/js/publicFunc'
-import * as actions from '@/store/actions'
 import session from '@/api/sys/session'
 import { OidcLogin } from '@/pages/login/OidcLogin'
+import { useAppDispatch, useAppSelector } from '@/store/redux-hooks'
+import { selectUserInfo, setUserInfo } from '@/store/slicers/userSlice'
+import { setTabs } from '@/store/slicers/tabSlice'
+import { selectTheme } from '@/store/slicers/appSlice'
 
 interface Props extends ReduxProps {}
 
-const LoginForm: FC<Props> = ({
-  storeData: { theme, userInfo = {} },
-  setStoreData
-}) => {
+const LoginForm: FC<Props> = () => {
+  const dispatch = useAppDispatch()
+  const userInfo = useAppSelector(selectUserInfo)
+  const theme = useAppSelector(selectTheme)
   const history = useHistory()
   useEffect(() => {
     const { token } = userInfo
@@ -25,15 +26,15 @@ const LoginForm: FC<Props> = ({
       return
     }
     // 重置 tab栏为首页
-    setStoreData('SET_CURTAB', ['/'])
-  }, [history, setStoreData, userInfo])
+    dispatch(setTabs(['/']))
+  }, [history, dispatch, userInfo])
 
   // 触发登录方法
   const onFinish = async (values: CommonObjectType<string>) => {
     const { username, password } = values
     try {
       const result = await session.login({ username, password })
-      setUserInfo(result, setStoreData)
+      dispatch(setUserInfo(result))
       history.push('/')
     } catch (e) {
       const response = (e as any)?.response // Axios异常
@@ -100,4 +101,4 @@ const LoginForm: FC<Props> = ({
   )
 }
 
-export default connect((state) => state, actions)(LoginForm)
+export default LoginForm

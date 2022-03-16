@@ -83,7 +83,7 @@ export const closeTabAction = (
   returnUrl: string = '/',
   cb?: () => void
 ) => {
-  const { curTab } = store.getState().storeData
+  const { curTab } = store.getState().tab
   const { href } = window.location
   const pathname = href.split('#')[1]
   // 删除tab

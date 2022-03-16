@@ -2,8 +2,6 @@ import React, { FC } from 'react'
 import { useHistory } from 'react-router-dom'
 import { List, Typography, Button } from 'antd'
 import { KeyOutlined } from '@ant-design/icons'
-import { connect } from 'react-redux'
-import * as actions from '@/store/actions'
 import { setUserInfo } from '@/assets/js/publicFunc'
 
 const { Text } = Typography
@@ -94,4 +92,4 @@ const AuthTest: FC<Props> = ({ storeData: { userInfo }, setStoreData }) => {
   )
 }
 
-export default connect((state) => state, actions)(AuthTest)
+export default AuthTest

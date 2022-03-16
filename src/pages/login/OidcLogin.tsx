@@ -2,10 +2,12 @@
 
 import React, { useEffect, useState } from 'react'
 import { callOidcLogin, oidcSettings, userManager } from '@/config/oidc_setting'
-import * as actions from '@/store/actions'
 import { Button } from 'antd'
+import { useAppDispatch } from '@/store/redux-hooks'
+import { setUserInfo } from '@/store/slicers/userSlice'
 
 export const OidcLogin = ({ loginCallback }) => {
+  const dispatch = useAppDispatch()
   const [state, setState] = useState('登录第三方...')
   const [loggedIn, setLoggedIn] = useState(false)
   const [logging, setLogging] = useState(false)
@@ -14,8 +16,8 @@ export const OidcLogin = ({ loginCallback }) => {
     setLogging(true)
     setState('登录中...')
     try {
-      await callOidcLogin((provided) =>
-        actions.setStoreData('SET_USERINFO', provided)
+      await callOidcLogin(
+        (provided) => provided && dispatch(setUserInfo(provided))
       )
       setLogging(false)
       loginCallback()
