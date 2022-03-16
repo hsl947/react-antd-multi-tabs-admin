@@ -49,7 +49,7 @@ module.exports = {
       }
     ],
     'no-use-before-define': ['error', { functions: false }],
-    'prettier/prettier': ['error', { parser: 'flow' }] // 有bug
+    'prettier/prettier': ['error', { parser: 'babel-ts' }]
   },
   overrides: [
     {
