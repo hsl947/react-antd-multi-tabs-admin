@@ -48,8 +48,8 @@ module.exports = {
         null: 'ignore'
       }
     ],
-    'no-use-before-define': ['error', { functions: false }]
-    // 'prettier/prettier': ['error', {parser: 'flow'}] // 有bug
+    'no-use-before-define': ['error', { functions: false }],
+    'prettier/prettier': ['error', { parser: 'flow' }] // 有bug
   },
   overrides: [
     {
