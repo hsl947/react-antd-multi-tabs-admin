@@ -30,22 +30,22 @@ import SearchView from '@/components/common/searchForm'
  */
 
 interface TableProps {
-  columns: object[];
-  apiFun: (arg0?: unknown[]) => Promise<{}>;
-  ref?: RefType;
-  searchConfigList?: object[];
-  extraProps?: object;
-  rowKey?: string;
-  rowClassName?: string;
-  small?: boolean;
-  showHeader?: boolean;
-  extraPagation?: string[];
-  beforeSearch?: (arg0?: unknown) => void;
-  onSelectRow?: (arg0?: string[], arg1?: string[]) => void;
-  onFieldsChange?: (arg0?: unknown, arg1?: unknown) => void;
-  sortConfig?: (arg0?: object) => any;
-  expandedRowRender?: () => ReactNode;
-  onExpand?: () => void;
+  columns: object[]
+  apiFun: (arg0?: unknown[]) => Promise<{}>
+  ref?: RefType
+  searchConfigList?: object[]
+  extraProps?: object
+  rowKey?: string
+  rowClassName?: string
+  small?: boolean
+  showHeader?: boolean
+  extraPagation?: string[]
+  beforeSearch?: (arg0?: unknown) => void
+  onSelectRow?: (arg0?: string[], arg1?: string[]) => void
+  onFieldsChange?: (arg0?: unknown, arg1?: unknown) => void
+  sortConfig?: (arg0?: object) => any
+  expandedRowRender?: () => ReactNode
+  onExpand?: () => void
 }
 
 const MyTable: FC<TableProps> = forwardRef(
@@ -103,12 +103,11 @@ const MyTable: FC<TableProps> = forwardRef(
     const [curPageNo, setCurPageNo] = useState(initParams.pageNum)
     const [curPageSize, setCurPageSize] = useState(initParams.pageSize)
 
-    const { loading = false, response = {} }: CommonObjectType = useService(
+    const { loading = false, response }: CommonObjectType = useService(
       apiFun,
       tableParams
     )
-    const validData = response?.total ? response : {}
-    const { rows: tableData = [], total } = validData
+    const { rows: tableData = [], total = -1 } = response || {}
 
     // 执行搜索操作
     const handleSearch = (val: object): void => {

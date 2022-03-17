@@ -83,7 +83,7 @@ export const closeTabAction = (
   returnUrl: string = '/',
   cb?: () => void
 ) => {
-  const { curTab } = store.getState().storeData
+  const { curTab } = store.getState().tab
   const { href } = window.location
   const pathname = href.split('#')[1]
   // 删除tab
@@ -295,7 +295,7 @@ export const setUserInfo = (
   action: (arg0: string, arg1: unknown) => unknown,
   oldToken?: string
 ) => {
-  const { permission, userName, token } = userInfo
+  const { permission, username, token } = userInfo
   const permissionArray = permission.reduce(
     (prev: CommonObjectType<string>[], next: CommonObjectType<string>) => [
       ...prev,
@@ -306,7 +306,7 @@ export const setUserInfo = (
   localStorage.setItem('permissions', permissionArray)
 
   const result = {
-    userName,
+    username,
     permission,
     token: token || oldToken
   }

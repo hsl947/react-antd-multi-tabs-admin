@@ -1,13 +1,14 @@
-import React, { useState, useEffect, useCallback, FC } from 'react'
+import React, { FC, useCallback, useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { Menu, Layout } from 'antd'
+import { Layout, Menu } from 'antd'
 
 import MyIconFont from '@/components/common/myIconfont'
-import { getKeyName, flattenRoutes } from '@/assets/js/publicFunc'
+import { flattenRoutes, getKeyName } from '@/assets/js/publicFunc'
 import menus from '@/config/menu'
 import logo from '@/assets/img/logo.png'
-import { connect } from 'react-redux'
-import * as actions from '@/store/actions'
+import { useAppSelector } from '@/store/redux-hooks'
+import { selectUserInfo } from '@/store/slicers/userSlice'
+import { selectCollapsed, selectTheme } from '@/store/slicers/appSlice'
 import styles from './Menu.module.less'
 
 const { SubMenu } = Menu
@@ -17,7 +18,10 @@ interface Props extends ReduxProps {}
 
 type MenuType = CommonObjectType<string>
 
-const MenuView: FC<Props> = ({ storeData: { theme, userInfo, collapsed } }) => {
+const MenuView: FC<Props> = () => {
+  const userInfo = useAppSelector(selectUserInfo)
+  const collapsed = useAppSelector(selectCollapsed)
+  const theme = useAppSelector(selectTheme)
   const { pathname } = useLocation()
   const { tabKey: curKey = 'home' } = getKeyName(pathname)
   const [current, setCurrent] = useState(curKey)
@@ -25,12 +29,11 @@ const MenuView: FC<Props> = ({ storeData: { theme, userInfo, collapsed } }) => {
   // 递归逐级向上获取最近一级的菜单，并高亮
   const higherMenuKey = useCallback(
     (checkKey = 'home', path = pathname) => {
-      const higherKey = checkKey
       if (
         checkKey === '403' ||
         flatMenu.some((item: MenuType) => item.key === checkKey)
       ) {
-        return higherKey
+        return checkKey
       }
       const higherPath = path.match(/(.*)\//g)[0].replace(/(.*)\//, '$1')
       const { tabKey } = getKeyName(higherPath)
@@ -78,7 +81,7 @@ const MenuView: FC<Props> = ({ storeData: { theme, userInfo, collapsed } }) => {
   const creatSubMenu = (data: CommonObjectType): JSX.Element => {
     const menuItemList = []
     data.routes.map((item: MenuType) => {
-      const arr = permission.filter((ele: MenuType) => item.key === ele.code)
+      const arr = permission.filter((ele) => item.key === ele.code)
       if (arr.length > 0) {
         menuItemList.push(renderMenu(item))
       }
@@ -138,7 +141,4 @@ const MenuView: FC<Props> = ({ storeData: { theme, userInfo, collapsed } }) => {
   )
 }
 
-export default connect(
-  (state) => state,
-  actions
-)(MenuView)
+export default MenuView

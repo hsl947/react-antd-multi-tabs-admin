@@ -1,43 +1,63 @@
 import React, { useState, useEffect, FC } from 'react'
 import { useHistory } from 'react-router-dom'
 import { Menu, Dropdown, Layout } from 'antd'
-import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons'
+import {
+  MenuUnfoldOutlined,
+  MenuFoldOutlined,
+  LoadingOutlined
+} from '@ant-design/icons'
 import Breadcrumb from '@/components/common/breadcrumb'
-import { connect } from 'react-redux'
-import * as actions from '@/store/actions'
-import style from './Header.module.less'
 import { Icon } from '@iconify/react'
+import { oidcLogout } from '@/config/oidc_setting'
+import { useAppDispatch, useAppSelector } from '@/store/redux-hooks'
+import { selectUserInfo, setUserInfo } from '@/store/slicers/userSlice'
+import {
+  selectTheme,
+  setCollapsed as setCollapsedGlobal,
+  setTheme
+} from '@/store/slicers/appSlice'
+
+import style from './Header.module.less'
 
 interface Props extends ReduxProps {}
 
-const Header: FC<Props> = ({
-  storeData: { theme, userInfo },
-  setStoreData
-}) => {
+const Header: FC<Props> = () => {
+  const dispatch = useAppDispatch()
+  const theme = useAppSelector(selectTheme)
+  const userInfo = useAppSelector(selectUserInfo)
   const history = useHistory()
-  const { userName = '-' } = userInfo
-  const firstWord = userName.slice(0, 1)
+  const { username = '-' } = userInfo
+  const firstWord = username.slice(0, 1)
   const [collapsed, setCollapsed] = useState(false)
+  const [loading, setLoading] = useState(false)
   const logout = async () => {
-    await setStoreData('SET_USERINFO', {})
-    history.replace({ pathname: '/login' })
+    console.log('user 登出', userInfo)
+    if (userInfo.is_oidc_user) {
+      setLoading(true)
+      await oidcLogout()
+      dispatch(setUserInfo({})) // 清除用户信息 下同
+    } else {
+      dispatch(setUserInfo({}))
+      history.replace({ pathname: '/login' })
+    }
   }
 
   const changeTheme = (themes: string) => {
-    setStoreData('SET_THEME', themes)
+    dispatch(setTheme(themes))
   }
 
   const menu = (
     <Menu>
       <Menu.Item onClick={logout}>
         <span>退出登录</span>
+        {loading && <LoadingOutlined />}
       </Menu.Item>
     </Menu>
   )
 
   const toggle = (): void => {
     setCollapsed(!collapsed)
-    setStoreData('SET_COLLAPSED', !collapsed)
+    dispatch(setCollapsedGlobal(!collapsed))
   }
 
   // 更换主题
@@ -74,20 +94,18 @@ const Header: FC<Props> = ({
       <Dropdown className={`fr ${style.content}`} overlay={menu}>
         <span className={style.user}>
           <span className="avart">{firstWord}</span>
-          <span>{userName}</span>
+          <span>{username}</span>
         </span>
       </Dropdown>
       <div className={`fr ${style.themeSwitchWrapper}`}>
         <div
-          className={
-            style.themeSwitch +
-            ' ' +
-            (theme === 'default' ? '' : style.themeSwitchDark)
-          }
+          className={`${style.themeSwitch} ${
+            theme === 'default' ? '' : style.themeSwitchDark
+          }`}
           title="更换主题"
           onClick={() => changeTheme(theme === 'default' ? 'dark' : 'default')}
         >
-          <div className={style.themeSwitchInner}></div>
+          <div className={style.themeSwitchInner} />
           <Icon icon="emojione:sun" />
           <Icon icon="bi:moon-stars-fill" color="#ffe62e" />
         </div>
@@ -109,7 +127,4 @@ const Header: FC<Props> = ({
     </Layout.Header>
   )
 }
-export default connect(
-  (state) => state,
-  actions
-)(Header)
+export default Header

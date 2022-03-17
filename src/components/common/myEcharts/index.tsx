@@ -1,17 +1,15 @@
 import React, { FC } from 'react'
 import ReactEcharts from 'echarts-for-react'
-import { connect } from 'react-redux'
+import { useAppSelector } from '@/store/redux-hooks'
+import { selectTheme } from '@/store/slicers/appSlice'
 
 interface Props extends ReduxProps {
-  option: object;
-  style?: object;
+  option: object
+  style?: object
 }
 
-const MyEcharts: FC<Props> = ({
-  option = {},
-  style = {},
-  storeData: { theme }
-}) => {
+const MyEcharts: FC<Props> = ({ option = {}, style = {} }) => {
+  const theme = useAppSelector(selectTheme)
   const themeColor = theme === 'default' ? {} : { theme: 'dark' }
   const options = {
     ...option,
@@ -25,4 +23,4 @@ const MyEcharts: FC<Props> = ({
   return <ReactEcharts option={options} {...themeColor} style={style} />
 }
 
-export default connect((state) => state)(MyEcharts)
+export default MyEcharts

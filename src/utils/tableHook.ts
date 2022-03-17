@@ -35,9 +35,8 @@ const useService = (
   service: (arg0?: any) => Promise<{}>,
   params?: CommonObjectType
 ): object => {
-  const [callback, { loading, error, response }]: any[] = useServiceCallback(
-    service
-  )
+  const [callback, { loading, error, response }]: any[] =
+    useServiceCallback(service)
   useEffect(() => {
     callback(params)
     return () => {}

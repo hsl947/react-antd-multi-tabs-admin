@@ -3,9 +3,10 @@
   background: @component-background;
   height: 64px;
   padding: 0;
-  box-shadow: 0 0.3px 0.9px rgba(0,0,0,0.12), 0 1.6px 3.6px rgba(0,0,0,0.12);
+  box-shadow: 0 0.3px 0.9px rgba(0, 0, 0, 0.12), 0 1.6px 3.6px rgba(0, 0, 0, 0.12);
   z-index: 2;
 }
+
 .content {
   height: 64px;
   display: flex;
@@ -13,18 +14,20 @@
   cursor: pointer;
   padding: 0 30px;
   transition: all .3s;
+
   &:hover {
     background: rgba(0, 0, 0, .025);
   }
 }
-.toggleMenu{
+
+.toggleMenu {
   display: inline-block;
   height: 64px;
   line-height: 64px;
   padding: 0 24px;
   font-size: 20px;
   cursor: pointer;
-  transition: all .3s,padding 0s;
+  transition: all .3s, padding 0s;
 }
 
 .themeSwitchWrapper {
@@ -68,10 +71,27 @@
       transform: translateX(calc(100% + 2px));
     }
   }
-  & svg{
+
+  & svg {
     display: inline-block;
     overflow: hidden;
     vertical-align: -0.15em;
     fill: currentColor;
+  }
+}
+
+.spin {
+  animation-name: spin;
+  animation-duration: 2000ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
   }
 }

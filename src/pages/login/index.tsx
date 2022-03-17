@@ -5,16 +5,19 @@ import { Form, Input, Button, message } from 'antd'
 import ReactCanvasNest from 'react-canvas-nest'
 import './login.less'
 import Logo from '@/assets/img/logo.png'
-import { setUserInfo } from '@/assets/js/publicFunc'
-import { connect } from 'react-redux'
-import * as actions from '@/store/actions'
+import session from '@/api/sys/session'
+import { OidcLogin } from '@/pages/login/OidcLogin'
+import { useAppDispatch, useAppSelector } from '@/store/redux-hooks'
+import { selectUserInfo, setUserInfo } from '@/store/slicers/userSlice'
+import { setTabs } from '@/store/slicers/tabSlice'
+import { selectTheme } from '@/store/slicers/appSlice'
 
 interface Props extends ReduxProps {}
 
-const LoginForm: FC<Props> = ({
-  storeData: { theme, userInfo = {} },
-  setStoreData
-}) => {
+const LoginForm: FC<Props> = () => {
+  const dispatch = useAppDispatch()
+  const userInfo = useAppSelector(selectUserInfo)
+  const theme = useAppSelector(selectTheme)
   const history = useHistory()
   useEffect(() => {
     const { token } = userInfo
@@ -23,58 +26,38 @@ const LoginForm: FC<Props> = ({
       return
     }
     // 重置 tab栏为首页
-    setStoreData('SET_CURTAB', ['/'])
-  }, [history, setStoreData, userInfo])
+    dispatch(setTabs(['/']))
+  }, [history, dispatch, userInfo])
 
   // 触发登录方法
-  const onFinish = (values: CommonObjectType<string>): void => {
-    const { userName, password } = values
-    if (userName !== 'admin' && password !== '123456') {
-      message.error('用户名或密码错误')
-      return
+  const onFinish = async (values: CommonObjectType<string>) => {
+    const { username, password } = values
+    try {
+      const result = await session.login({ username, password })
+      dispatch(setUserInfo(result))
+      history.push('/')
+    } catch (e) {
+      const response = (e as any)?.response // Axios异常
+      message.error(
+        response
+          ? `发生错误:${response.data}`
+          : `认证服务异常,请联系管理员:${e}`
+      )
     }
-
-    // 登录后返回的数据，包括权限
-    const res = {
-      userName,
-      token: 'asdfghjkl',
-      permission: [
-        {
-          code: 'user:list:view',
-          name: '查看用户列表'
-        },
-        {
-          code: 'user:list:add',
-          name: '新增用户列表'
-        },
-        {
-          code: 'user:list:edit',
-          name: '编辑用户列表'
-        },
-        {
-          code: 'role:list:view',
-          name: '查看角色列表'
-        },
-        {
-          code: 'auth:test:view',
-          name: '查看权限测试页'
-        }
-      ]
-    }
-    setUserInfo(res, setStoreData)
-    history.push('/')
   }
 
   const FormView = (
     <Form className="login-form" name="login-form" onFinish={onFinish}>
       <Form.Item
-        name="userName"
+        name="username"
+        initialValue="admin"
         rules={[{ required: true, message: '请输入用户名' }]}
       >
         <Input placeholder="用户名" prefix={<UserOutlined />} size="large" />
       </Form.Item>
       <Form.Item
         name="password"
+        initialValue="123456"
         rules={[{ required: true, message: '请输入密码' }]}
         extra="用户名：admin 密码：123456"
       >
@@ -93,6 +76,7 @@ const LoginForm: FC<Props> = ({
         >
           登录
         </Button>
+        <OidcLogin loginCallback={() => history.push('/')} />
       </Form.Item>
     </Form>
   )
@@ -117,7 +101,4 @@ const LoginForm: FC<Props> = ({
   )
 }
 
-export default connect(
-  (state) => state,
-  actions
-)(LoginForm)
+export default LoginForm
