@@ -207,14 +207,15 @@ export const getVideoUrl = (html?: string) => {
 /**
  * 获取本地存储中的权限
  */
-export const getPermission = () => localStorage.getItem('permissions') || []
+export const getPermission = () =>
+  store.getState().user.UserInfo.permission || []
 
 /**
  * 根据权限判断是否有权限
  */
 export const isAuthorized = (val: string): boolean => {
   const permissions = getPermission()
-  return permissions.includes(val)
+  return !!permissions.find((_) => _.code === val)
 }
 
 /**
