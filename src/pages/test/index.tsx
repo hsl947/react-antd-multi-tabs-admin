@@ -2,15 +2,18 @@ import React, { FC } from 'react'
 import { useHistory } from 'react-router-dom'
 import { List, Typography, Button } from 'antd'
 import { KeyOutlined } from '@ant-design/icons'
-import { setUserInfo } from '@/assets/js/publicFunc'
+import { selectUserInfo, setUserInfo } from '@/store/slicers/userSlice'
+import { useAppDispatch, useAppSelector } from '@/store/redux-hooks'
 
 const { Text } = Typography
 
 interface Props extends ReduxProps {}
 
-const AuthTest: FC<Props> = ({ storeData: { userInfo }, setStoreData }) => {
+const AuthTest: FC<Props> = () => {
+  const userInfo = useAppSelector(selectUserInfo)
   const history = useHistory()
   const { username, permission } = userInfo
+  const dispatch = useAppDispatch()
 
   // 切换权限
   const changeAuth = () => {
@@ -56,7 +59,7 @@ const AuthTest: FC<Props> = ({ storeData: { userInfo }, setStoreData }) => {
               }
             ]
     }
-    setUserInfo(newInfo, setStoreData)
+    dispatch(setUserInfo(newInfo))
   }
 
   return (
@@ -78,7 +81,7 @@ const AuthTest: FC<Props> = ({ storeData: { userInfo }, setStoreData }) => {
         }
         bordered
         dataSource={permission}
-        renderItem={(item: CommonObjectType<string>) => (
+        renderItem={(item) => (
           <List.Item>
             {item.name} - {item.code}
           </List.Item>
