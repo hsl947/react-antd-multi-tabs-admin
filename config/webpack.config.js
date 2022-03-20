@@ -3,7 +3,8 @@ const {
   override,
   addWebpackAlias,
   fixBabelImports,
-  addLessLoader
+  addLessLoader,
+  addPostcssPlugins, addWebpackPlugin
 } = require('customize-cra')
 const CompressionWebpackPlugin = require('compression-webpack-plugin')
 const BundleAnalyzerPlugin =
@@ -11,10 +12,10 @@ const BundleAnalyzerPlugin =
 const webpack = require('webpack')
 const path = require('path')
 const darkThemeVars = require('antd/dist/dark-theme')
-const { addReactRefresh } = require('customize-cra-react-refresh')
+const {addReactRefresh} = require('customize-cra-react-refresh')
 // 分析打包大小
 const addAnalyze = () => (config) => {
-  let plugins = [new BundleAnalyzerPlugin({ analyzerPort: 7777 })]
+  let plugins = [new BundleAnalyzerPlugin({analyzerPort: 7777})]
   config.plugins = [...config.plugins, ...plugins]
   return config
 }
@@ -96,7 +97,12 @@ module.exports = override(
         localIdentName: '[local]--[hash:base64:5]' // use less-modules
       }
     }
-  })
+  }),
+  // 如果使用 高版本的 CRA 只需要在项目根目录加入 postcss.config.js 文件即可
+  addPostcssPlugins([
+    require('tailwindcss')('./tailwind.config.js') // 默认路径为根目录/tailwind.config.js, 此处可以不指定
+    // require('autoprefixer') // 需要兼容性处理 https://github.com/postcss/postcss/wiki/PostCSS-8-for-end-users
+  ])
   // adjustStyleLoaders(({ use: [, css, postcss, resolve, processor] }) => {
   //   css.options.sourceMap = true // css-loader
   //   postcss.options.sourceMap = true // postcss-loader

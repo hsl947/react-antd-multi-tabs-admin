@@ -7,7 +7,7 @@
   z-index: 2;
 
   &.horizontal {
-    width: 20%;
+    width: 280px;
     position: absolute;
     top: 0;
     right: 0;
@@ -21,7 +21,7 @@
   display: flex;
   align-items: center;
   cursor: pointer;
-  padding: 0 30px;
+  padding: 0 20px;
   transition: all .3s;
 
   &:hover {
@@ -42,7 +42,6 @@
 .themeSwitchWrapper {
   position: relative;
   display: inline-flex;
-  width: 64px;
   height: 64px;
   line-height: 64px;
   text-align: center;
@@ -103,4 +102,40 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.layoutCheckIndicator {
+  position: relative;
+  width: 44px;
+  height: 36px;
+  margin-right: 16px;
+  overflow: hidden;
+  background-color: #f0f2f5;
+  border-radius: 4px;
+  -webkit-box-shadow: 0 1px 2.5px 0 rgb(0 0 0 / 18%);
+  box-shadow: 0 1px 2.5px 0 rgb(0 0 0 / 18%);
+  cursor: pointer;
+
+  .checkboxItem {
+    position: absolute;
+    right: 6px;
+    bottom: 4px;
+    color: @primary-color;
+    font-weight: bold;
+    font-size: 14px;
+    pointer-events: none;
+  }
+
+}
+
+.preference {
+  position: relative;
+  height: 64px;
+  line-height: 64px;
+  display: flex;
+  align-items: center;
+  padding: 0 0 0 10px;
+  font-size: 20px;
+  cursor: pointer;
+  transition: all .3s, padding 0s;
 }

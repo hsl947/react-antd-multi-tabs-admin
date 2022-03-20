@@ -62,14 +62,10 @@ const MenuView: FC<MenuProps> = ({ menuMode }) => {
   const subMenuTitle = (data: MenuType): JSX.Element => {
     const { icon: MenuIcon, iconfont } = data
     return (
-      <span>
-        {iconfont ? (
-          <MyIconFont type={iconfont} style={{ fontSize: '14px' }} />
-        ) : (
-          !!MenuIcon && <MenuIcon />
-        )}
+      <div className="flex items-center">
+        {iconfont ? <MyIconFont type={iconfont} /> : !!MenuIcon && <MenuIcon />}
         {!collapsed && <span className={styles.noselect}>{data.name}</span>}
-      </span>
+      </div>
     )
   }
 
@@ -114,6 +110,12 @@ const MenuView: FC<MenuProps> = ({ menuMode }) => {
     .reduce((prev: MenuType[], next: MenuType) => [...prev, next.key], [])
 
   const showKeys = collapsed ? [] : setDefaultKey
+  const LogLink = () => (
+    <Link to={{ pathname: '/' }}>
+      <img alt="logo" src={logo} className="h-12 inline" />
+      {!collapsed && <h1 className="inline">Antd多页签模板</h1>}
+    </Link>
+  )
   if (menuMode === 'horizontal')
     return (
       <Header className="header">
@@ -123,11 +125,8 @@ const MenuView: FC<MenuProps> = ({ menuMode }) => {
           selectedKeys={[current]}
           theme={theme === 'default' ? 'light' : 'dark'}
         >
-          <Menu.Item>
-            <Link to={{ pathname: '/' }}>
-              <img alt="logo" src={logo} height={64} />
-              {!collapsed && <span>Antd多页签模板</span>}
-            </Link>
+          <Menu.Item className={styles.noselect}>
+            <LogLink />
           </Menu.Item>
           {renderMenuMap(menus)}
         </Menu>
@@ -146,10 +145,7 @@ const MenuView: FC<MenuProps> = ({ menuMode }) => {
       width={220}
     >
       <div className="logo">
-        <Link to={{ pathname: '/' }}>
-          <img alt="logo" src={logo} />
-          {!collapsed && <h1>Antd多页签模板</h1>}
-        </Link>
+        <LogLink />
       </div>
       <Menu
         defaultOpenKeys={showKeys}
