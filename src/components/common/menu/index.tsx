@@ -9,6 +9,7 @@ import logo from '@/assets/img/logo.png'
 import { useAppSelector } from '@/store/redux-hooks'
 import { selectUserInfo } from '@/store/slicers/userSlice'
 import { selectCollapsed, selectTheme } from '@/store/slicers/appSlice'
+import classNames from 'classnames'
 import styles from './Menu.module.less'
 
 const { Header } = Layout
@@ -112,8 +113,14 @@ const MenuView: FC<MenuProps> = ({ menuMode }) => {
   const showKeys = collapsed ? [] : setDefaultKey
   const LogLink = () => (
     <Link to={{ pathname: '/' }}>
-      <img alt="logo" src={logo} className="h-12 inline" />
-      {!collapsed && <h1 className="inline">Antd多页签模板</h1>}
+      <div
+        className={classNames({
+          [styles.horizontalHeader]: menuMode === 'horizontal'
+        })}
+      >
+        <img alt="logo" src={logo} className="h-12 inline" />
+        {!collapsed && <h1 className="inline">Antd多页签模板</h1>}
+      </div>
     </Link>
   )
   if (menuMode === 'horizontal')

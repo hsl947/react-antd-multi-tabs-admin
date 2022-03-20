@@ -273,6 +273,7 @@ const TabPanes: FC<Props> = (props) => {
         onEdit={onEdit}
         onTabClick={onTabClick}
         type="editable-card"
+        size="small"
       >
         {panes.map((pane: CommonObjectType) => (
           <TabPane
