@@ -59,9 +59,9 @@ const Header: FC = () => {
   const setting = (
     <Menu>
       <Menu.Item>
-        偏好设置
-        <div className="flex flex-col justify-center">
-          <div className={`flex-1 self-center ${style.layoutCheckIndicator}`}>
+        布局
+        <div>
+          <div className={style.layoutCheckIndicator}>
             <Icon
               className="block flex-1 btn ant-btn-link"
               icon="tabler:layout-navbar"
@@ -74,7 +74,7 @@ const Header: FC = () => {
               className={menuMode === 'vertical' && style.checkboxItem}
             />
           </div>
-          <div className={`flex-1 self-center ${style.layoutCheckIndicator}`}>
+          <div className={style.layoutCheckIndicator}>
             <Icon
               className="block flex-1"
               icon="tabler:layout-navbar"
@@ -114,16 +114,6 @@ const Header: FC = () => {
       const themeJs = document.getElementById('themeJs')
       const themeStyle = document.getElementById('less:color')
       if (themeJs) themeJs.remove()
-      /* 实现说明
-      // 入口文件 index.html中,优先加载用户偏好的主题
-      const themeStyle = localStorage.getItem('themeStyle')
-      if(themeStyle) {
-        const styles = document.createElement('style')
-        styles.id = 'less:color'
-        styles.innerText = themeStyle
-        document.body.appendChild(styles)
-      }
-      * */
       if (themeStyle) themeStyle.remove()
       localStorage.removeItem('themeStyle')
     }
