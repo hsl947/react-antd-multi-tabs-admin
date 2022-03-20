@@ -7,6 +7,7 @@
   box-shadow: 2px 0 6px rgba(0, 21, 41, .35);
   position: fixed;
   overflow-y: auto;
+
   &::-webkit-scrollbar {
     width: 0;
   }
@@ -21,9 +22,16 @@
   margin-left: 220px;
   overflow-x: hidden;
   transition: margin .2s;
-  &.collapsed{
-    margin-left: 80px;
+
+  &.collapsed {
+    margin-left: 55px;
+    border-right: 1px solid #e5e5e5;
   }
+
+  &.horizontal {
+    margin-left: 0;
+  }
+
   .mainContent {
     background: @component-background;
     margin: 0 16px 16px;

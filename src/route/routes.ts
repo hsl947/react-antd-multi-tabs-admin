@@ -1,4 +1,11 @@
+import {
+  HomeOutlined,
+  BankOutlined,
+  UserOutlined,
+  AuditOutlined
+} from '@ant-design/icons'
 import Home from '@/pages/home'
+import Workspace from '@/pages/home/Workspace'
 import ErrorPage from '@/pages/public/errorPage'
 
 import UserList from '@/pages/user/list'
@@ -7,6 +14,9 @@ import UserEdit from '@/pages/user/edit'
 import RoleList from '@/pages/role/list'
 
 import AuthTest from '@/pages/test'
+import { MenuRoute } from '@/route/types'
+import React from 'react'
+import { Icon } from '@iconify/react'
 import { TestApiLoad } from './TempTestRouteComponent'
 
 /**
@@ -14,18 +24,31 @@ import { TestApiLoad } from './TempTestRouteComponent'
  * component 对应路径显示的组件
  * exact 匹配规则，true的时候则精确匹配。
  */
-const menus = [
+const preDefinedRoutes: MenuRoute[] = [
   {
     path: '/',
     name: '首页',
     exact: true,
     key: 'home',
+    icon: HomeOutlined,
     component: Home
+  },
+  {
+    path: '/workspace',
+    name: '工作台',
+    exact: true,
+    key: 'workspace',
+    component: Workspace,
+    icon: () =>
+      React.createElement(Icon, { icon: 'arcticons:syska-smart-home' })
   },
   {
     path: '/user',
     name: '用户管理',
     key: 'user',
+    type: 'subMenu',
+    icon: UserOutlined,
+    iconfont: 'icon-xiaoshouzongjian',
     routes: [
       {
         path: '/user/list',
@@ -39,6 +62,7 @@ const menus = [
         name: '新增用户',
         exact: true,
         key: 'user:list:add',
+        // hideInMenu: true,
         component: UserEdit
       },
       {
@@ -46,6 +70,7 @@ const menus = [
         name: '编辑用户',
         exact: true,
         key: 'user:list:edit',
+        // hideInMenu: true,
         component: UserEdit
       }
     ]
@@ -54,6 +79,8 @@ const menus = [
     path: '/role',
     name: '角色管理',
     key: 'role',
+    type: 'subMenu',
+    icon: AuditOutlined,
     routes: [
       {
         path: '/role/list',
@@ -69,6 +96,7 @@ const menus = [
     name: '权限测试页',
     exact: true,
     key: 'auth:test:view',
+    icon: BankOutlined,
     component: AuthTest
   },
   {
@@ -76,6 +104,7 @@ const menus = [
     name: '测试api',
     exact: true,
     key: '/test-api',
+    icon: BankOutlined,
     component: TestApiLoad
   },
   {
@@ -83,8 +112,9 @@ const menus = [
     name: '暂无权限',
     exact: true,
     key: '/403',
+    // hideInMenu: true,
     component: ErrorPage
   }
 ]
 
-export default menus
+export default preDefinedRoutes

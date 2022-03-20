@@ -12,7 +12,6 @@ const webpack = require('webpack')
 const path = require('path')
 const darkThemeVars = require('antd/dist/dark-theme')
 const { addReactRefresh } = require('customize-cra-react-refresh')
-
 // 分析打包大小
 const addAnalyze = () => (config) => {
   let plugins = [new BundleAnalyzerPlugin({ analyzerPort: 7777 })]
@@ -65,6 +64,7 @@ const addOptimization = () => (config) => {
   }
   return config
 }
+
 module.exports = override(
   // addAnalyze(),
   // 配置路径别名
@@ -81,14 +81,33 @@ module.exports = override(
   }),
   // 使用less-loader对源码重的less的变量进行重新制定，设置antd自定义主题
   addLessLoader({
-    javascriptEnabled: true,
-    modifyVars: {
-      hack: `true;@import "${require.resolve(
-        'antd/lib/style/color/colorPalette.less'
-      )}";`,
-      ...darkThemeVars,
-      '@primary-color': '#6e41ff'
-    },
-    localIdentName: '[local]--[hash:base64:5]' // use less-modules
+    lessOptions: {
+      javascriptEnabled: true,
+      modifyVars: {
+        hack: `true;@import "${require.resolve(
+          'antd/lib/style/color/colorPalette.less'
+        )}";`,
+        ...darkThemeVars,
+        '@primary-color': '#6e41ff',
+        // 'primary-color': '#1DA57A', // 无效
+        '@link-color': '#1DA57A'
+      },
+      modules: {
+        localIdentName: '[local]--[hash:base64:5]' // use less-modules
+      }
+    }
   })
+  // adjustStyleLoaders(({ use: [, css, postcss, resolve, processor] }) => {
+  //   css.options.sourceMap = true // css-loader
+  //   postcss.options.sourceMap = true // postcss-loader
+  //   // when enable pre-processor,
+  //   // resolve-url-loader will be enabled too
+  //   if (resolve) {
+  //     resolve.options.sourceMap = true // resolve-url-loader
+  //   }
+  //   // pre-processor
+  //   if (processor && processor.loader.includes('less-loader')) {
+  //     processor.options.sourceMap = true // less-loader
+  //   }
+  // })
 )

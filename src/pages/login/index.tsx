@@ -12,9 +12,7 @@ import { selectUserInfo, setUserInfo } from '@/store/slicers/userSlice'
 import { setTabs } from '@/store/slicers/tabSlice'
 import { selectTheme } from '@/store/slicers/appSlice'
 
-interface Props extends ReduxProps {}
-
-const LoginForm: FC<Props> = () => {
+const LoginForm: FC = () => {
   const dispatch = useAppDispatch()
   const userInfo = useAppSelector(selectUserInfo)
   const theme = useAppSelector(selectTheme)

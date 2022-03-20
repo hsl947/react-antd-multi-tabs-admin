@@ -1,6 +1,6 @@
 import React, { useState, useEffect, FC } from 'react'
 import { useHistory } from 'react-router-dom'
-import { Menu, Dropdown, Layout } from 'antd'
+import { Menu, Dropdown, Layout, Divider } from 'antd'
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
@@ -14,17 +14,18 @@ import { selectUserInfo, setUserInfo } from '@/store/slicers/userSlice'
 import {
   selectTheme,
   setCollapsed as setCollapsedGlobal,
+  setMenuMode,
   setTheme
 } from '@/store/slicers/appSlice'
 
+import classNames from 'classnames'
 import style from './Header.module.less'
 
-interface Props extends ReduxProps {}
-
-const Header: FC<Props> = () => {
+const Header: FC = () => {
   const dispatch = useAppDispatch()
   const theme = useAppSelector(selectTheme)
   const userInfo = useAppSelector(selectUserInfo)
+  const menuMode = useAppSelector((state) => state.app.menuMode)
   const history = useHistory()
   const { username = '-' } = userInfo
   const firstWord = username.slice(0, 1)
@@ -52,6 +53,22 @@ const Header: FC<Props> = () => {
         <span>退出登录</span>
         {loading && <LoadingOutlined />}
       </Menu.Item>
+      <Divider />
+      <Menu.Item>
+        <Icon
+          icon="ant-design:layout-filled"
+          rotate={3}
+          fontSize={24}
+          color="green"
+          onClick={() => dispatch(setMenuMode('vertical'))}
+        />
+        <Icon
+          icon="tabler:layout-navbar"
+          fontSize={24}
+          color="blue"
+          onClick={() => dispatch(setMenuMode('horizontal'))}
+        />
+      </Menu.Item>
     </Menu>
   )
 
@@ -63,6 +80,7 @@ const Header: FC<Props> = () => {
   // 更换主题
   useEffect(() => {
     if (theme === 'default') {
+      // 通过挂载 预定义的postcss less.min.js 来处于 挂载预定义的color.less
       const script = document.createElement('script')
       script.id = 'themeJs'
       script.src = '/less.min.js'
@@ -73,24 +91,45 @@ const Header: FC<Props> = () => {
         if (themeStyle) localStorage.setItem('themeStyle', themeStyle.innerText)
       }, 500)
     } else {
+      // 深色主题: 移除自定义主题 style 节点和 script.src=themeJs 节点. 深色主题见
       const themeJs = document.getElementById('themeJs')
       const themeStyle = document.getElementById('less:color')
       if (themeJs) themeJs.remove()
+      /*
+      // 入口文件 index.html中,优先加载用户偏好的主题
+      const themeStyle = localStorage.getItem('themeStyle')
+      if(themeStyle) {
+        const styles = document.createElement('style')
+        styles.id = 'less:color'
+        styles.innerText = themeStyle
+        document.body.appendChild(styles)
+      }
+      * */
       if (themeStyle) themeStyle.remove()
       localStorage.removeItem('themeStyle')
     }
   }, [theme])
 
   return (
-    <Layout.Header className={style.header}>
-      <div className={style.toggleMenu} onClick={toggle}>
-        {collapsed ? (
-          <MenuUnfoldOutlined className={style.trigger} />
-        ) : (
-          <MenuFoldOutlined className={style.trigger} />
-        )}
-      </div>
-      <Breadcrumb />
+    <Layout.Header
+      className={classNames(style.header, {
+        [style.horizontal]: menuMode === 'horizontal'
+      })}
+    >
+      {menuMode === 'vertical' && (
+        <>
+          <div className={style.toggleMenu} onClick={toggle}>
+            {collapsed ? (
+              <MenuUnfoldOutlined className={style.trigger} />
+            ) : (
+              <MenuFoldOutlined className={style.trigger} />
+            )}
+          </div>
+          {/* 面包屑 */}
+          <Breadcrumb />
+        </>
+      )}
+
       <Dropdown className={`fr ${style.content}`} overlay={menu}>
         <span className={style.user}>
           <span className="avart">{firstWord}</span>

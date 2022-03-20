@@ -8,11 +8,15 @@ import Header from '@/components/common/header'
 import TabPanes from '@/components/common/tabPanes'
 import { selectUserInfo } from '@/store/slicers/userSlice'
 import { useAppDispatch, useAppSelector } from '@/store/redux-hooks'
-import { selectCollapsed, setCollapsed } from '@/store/slicers/appSlice'
-import styles from './Home.module.less'
+import {
+  selectCollapsed,
+  selectMenuMode,
+  setCollapsed
+} from '@/store/slicers/appSlice'
+import styles from './container.module.less'
 
 const noNewTab = ['/login'] // 不需要新建 tab的页面
-const noCheckAuth = ['/', '/403', '/test-api'] // 不需要检查权限的页面
+const noCheckAuth = ['/', '/403', '/test-api', '/workspace'] // 不需要检查权限的页面
 // 检查权限
 const checkAuth = (newPathname: string): boolean => {
   // 不需要检查权限的
@@ -34,6 +38,7 @@ interface PanesItemProps {
 const Home: FC = () => {
   const userInfo = useAppSelector(selectUserInfo)
   const collapsed = useAppSelector(selectCollapsed)
+  const menuMode = useAppSelector(selectMenuMode)
   const dispatch = useAppDispatch()
   const [tabActiveKey, setTabActiveKey] = useState<string>('home')
   const [panesItem, setPanesItem] = useState<PanesItemProps>({
@@ -51,7 +56,10 @@ const Home: FC = () => {
   const { token } = userInfo
 
   useEffect(() => {
-    dispatch(setCollapsed(document.body.clientWidth <= 1366))
+    if (!collapsed) {
+      // 已折叠时,不修改为折叠. 小屏幕依然根据窗体宽度自动折叠.
+      dispatch(setCollapsed(document.body.clientWidth <= 1366))
+    }
 
     // 未登录
     if (!token && pathname !== '/login') {
@@ -99,7 +107,7 @@ const Home: FC = () => {
       path: newPath
     })
     setTabActiveKey(tabKey)
-  }, [history, pathname, search, token, dispatch])
+  }, [history, pathname, search, token, dispatch, collapsed])
 
   return (
     <Layout
@@ -107,10 +115,17 @@ const Home: FC = () => {
       onContextMenu={(e) => e.preventDefault()}
       style={{ display: pathname.includes('/login') ? 'none' : 'flex' }}
     >
-      <MenuView />
+      {/* <Layout.Sider>
+            <Logo>
+            <Menu>
+              {renderMenuMap(menus)} 通过.content & collapsed 切换 layout 布局
+            </Menu>
+      */}
+      <MenuView menuMode={menuMode} />
       <Layout
         className={classNames(styles.content, {
-          [styles.collapsed]: collapsed
+          [styles.collapsed]: collapsed && menuMode === 'vertical',
+          [styles.horizontal]: menuMode !== 'vertical'
         })}
       >
         <Header />

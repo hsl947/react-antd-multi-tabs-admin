@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { RootState } from '@/store'
+import type { RootState } from '@/store'
 import { UserInfo } from '@/app_models/user'
 
 export interface UserState {

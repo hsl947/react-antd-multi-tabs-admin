@@ -7,9 +7,7 @@ import { useAppDispatch, useAppSelector } from '@/store/redux-hooks'
 
 const { Text } = Typography
 
-interface Props extends ReduxProps {}
-
-const AuthTest: FC<Props> = () => {
+const AuthTest: FC = () => {
   const userInfo = useAppSelector(selectUserInfo)
   const history = useHistory()
   const { username, permission } = userInfo
