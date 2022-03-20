@@ -23,7 +23,8 @@
     "noImplicitAny": false,
     "noImplicitThis": false,
     "strictNullChecks": false,
-    "downlevelIteration": true
+    "downlevelIteration": true,
+    "noFallthroughCasesInSwitch": true
   },
   "rules": {
     "member-access": false,

@@ -32,7 +32,7 @@ const initPane = [
   }
 ]
 
-interface Props extends ReduxProps {
+interface Props {
   defaultActiveKey: string
   panesItem: {
     title: string
@@ -65,13 +65,7 @@ const TabPanes: FC<Props> = (props) => {
   // 记录当前打开的tab
   const storeTabs = useCallback(
     (ps): void => {
-      const pathArr = ps.reduce(
-        (prev: CommonObjectType[], next: CommonObjectType) => [
-          ...prev,
-          next.path
-        ],
-        []
-      )
+      const pathArr = ps.map((item) => item.path)
       dispatch(setTabs(pathArr))
     },
     [dispatch]

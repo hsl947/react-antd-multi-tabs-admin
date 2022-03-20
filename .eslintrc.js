@@ -49,7 +49,8 @@ module.exports = {
         null: 'ignore'
       }
     ],
-    'no-use-before-define': ['error', { functions: false }],
+    'no-use-before-define': ['off', { functions: false }],
+    // 'no-use-before-define': ['error', { functions: false }],
     'prettier/prettier': ['error', { parser: 'typescript' }]
   },
   overrides: [
