@@ -3,12 +3,9 @@ import { useHistory } from 'react-router-dom'
 import withBreadcrumbs from 'react-router-breadcrumbs-hoc'
 import { Breadcrumb, Button } from 'antd'
 import routes from '@/route/routes'
-import { flattenRoutes } from '@/assets/js/publicFunc'
-
-const allRoutes = flattenRoutes(routes)
 
 interface Props {
-  breadcrumbs: any[];
+  breadcrumbs: any[]
 }
 
 // 通用面包屑
@@ -39,4 +36,4 @@ const Breadcrumbs: FC<Props> = ({ breadcrumbs }) => {
   )
 }
 
-export default withBreadcrumbs(allRoutes)(Breadcrumbs)
+export default withBreadcrumbs(routes)(Breadcrumbs)
