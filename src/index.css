@@ -1,0 +1,9 @@
+/* 通过 PostCss注入 tailwindcss到本文件*/
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 热更新BUG https://github.com/facebook/create-react-app/issues/11773#issuecomment-1047510705*/
+iframe {
+  pointer-events: none;
+}

@@ -11,8 +11,9 @@ import 'moment/locale/zh-cn'
 import { loadOidcUser } from '@/config/oidc_setting'
 import { setUserInfo } from '@/store/slicers/userSlice'
 import App from './App'
-import '@/assets/css/public.less'
+import '@/assets/css/public.less' // 官方全部样式 ,但是可以通过变量控制
 import '@/utils'
+import './index.css'
 
 moment.locale('zh-cn')
 
@@ -22,6 +23,7 @@ let appReady = Promise.resolve()
 
 // Enable API mocking only in development
 if (process.env.NODE_ENV === 'development') {
+  // eslint-disable-next-line global-require
   const worker = require('./mocks/browser').default
   console.log('Mocking API...', worker)
 

@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { RootState, AppThunk } from '@/store' // 类型导入,并不造成 循环导入
+import type { RootState, AppThunk } from '@/store' // 类型导入,并不造成 循环导入
 
 export interface TabState {
   curTab: any[]

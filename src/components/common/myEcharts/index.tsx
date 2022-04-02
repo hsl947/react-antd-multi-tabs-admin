@@ -3,7 +3,7 @@ import ReactEcharts from 'echarts-for-react'
 import { useAppSelector } from '@/store/redux-hooks'
 import { selectTheme } from '@/store/slicers/appSlice'
 
-interface Props extends ReduxProps {
+interface Props {
   option: object
   style?: object
 }

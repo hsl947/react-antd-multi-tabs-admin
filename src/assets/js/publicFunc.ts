@@ -3,6 +3,8 @@ import { Modal } from 'antd'
 import routes from '@/route/routes'
 import ErrorPage from '@/pages/public/errorPage'
 import { store } from '@/store'
+import { setReloadPath, setTabs } from '@/store/slicers/tabSlice'
+import { batch } from 'react-redux'
 
 // 通用confirm方法
 export const commonConfirm = (title: string, cb: () => void) => {
@@ -63,7 +65,7 @@ export const getKeyName = (path: string = '/403') => {
  * @param {*} action 要执行的操作
  * @param {function} cb 下一步操作回调
  */
-export const asyncAction = (action: unknown) => {
+export const asyncAction = (action: unknown | void) => {
   const wait = new Promise((resolve) => {
     resolve(action)
   })
@@ -81,13 +83,13 @@ export const asyncAction = (action: unknown) => {
 export const closeTabAction = (
   history: CommonObjectType,
   returnUrl: string = '/',
-  cb?: () => void
+  cb?: () => {}
 ) => {
   const { curTab } = store.getState().tab
   const { href } = window.location
   const pathname = href.split('#')[1]
   // 删除tab
-  const tabArr = JSON.parse(JSON.stringify(curTab))
+  const tabArr = curTab.slice() // curTab 是不可变对象. slice() 方法返回一个数组副本
   const delIndex = tabArr.findIndex((item: string) => item === pathname)
   tabArr.splice(delIndex, 1)
 
@@ -95,38 +97,26 @@ export const closeTabAction = (
   if (!tabArr.includes(returnUrl)) {
     tabArr.push(returnUrl)
   }
-
-  // 储存新的tabs数组
-  const setTab = store.dispatch({
-    type: 'SET_CURTAB',
-    payload: tabArr
+  // 批量更新store, 同步更新ui, 避免多次绘制 UI
+  // React Redux：调度多个操作时的性能注意事项. batch 已经够用, 对于高消耗的reducer操作，可以使用 以下更好的方案
+  // https://medium.com/unsplash/react-redux-performance-considerations-when-dispatching-multiple-actions-5162047bf8a6
+  batch(() => {
+    // 储存新的tabs数组
+    store.dispatch(setTabs(tabArr))
+    // 刷新tab
+    store.dispatch(setReloadPath(returnUrl))
+    // 停止刷新tab
+    setTimeout(() => {
+      store.dispatch(setReloadPath('null'))
+    }, 500)
   })
-  // 刷新tab
-  const reloadTab = store.dispatch({
-    type: 'SET_RELOADPATH',
-    payload: returnUrl
-  })
-  // 停止刷新tab
-  const stopReload = setTimeout(() => {
-    store.dispatch({
-      type: 'SET_RELOADPATH',
-      payload: 'null'
-    })
-  }, 500)
-
-  const action = () => setTab && reloadTab && stopReload
-
-  // 刷新回调
-  const callback = () => {
-    if (cb && typeof cb === 'function') {
-      return cb
-    }
-    return history.push({
+  if (typeof cb === 'function') {
+    cb()
+  } else {
+    history.push({
       pathname: returnUrl
     })
   }
-
-  asyncAction(action)(callback)
 }
 
 /**
@@ -287,29 +277,3 @@ export const previewImg = (children: string | React.ReactNode) => {
  */
 export const limitDecimal = (val: string) =>
   val.replace(/^(-)*(\d+)\.(\d\d).*$/, '$1$2.$3')
-
-/**
- * 处理用户信息并储存起来
- */
-export const setUserInfo = (
-  userInfo: CommonObjectType,
-  action: (arg0: string, arg1: unknown) => unknown,
-  oldToken?: string
-) => {
-  const { permission, username, token } = userInfo
-  const permissionArray = permission.reduce(
-    (prev: CommonObjectType<string>[], next: CommonObjectType<string>) => [
-      ...prev,
-      next.code
-    ],
-    []
-  )
-  localStorage.setItem('permissions', permissionArray)
-
-  const result = {
-    username,
-    permission,
-    token: token || oldToken
-  }
-  action('SET_USERINFO', result)
-}

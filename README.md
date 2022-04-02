@@ -21,13 +21,15 @@
 ## 特点
 
 - 多 tab 页签➕右键菜单，提升效率
-- Redux 状态管理➕持久化
+- Redux / Toolkit 状态管理➕持久化
 - 封装实用 axios 请求
 - 动态链式面包屑导航
 - 菜单页面路由权限控制
-- less➕css module 样式隔离
+- less➕css module 样式隔离, 简单样式则可以使用tailwindcss class来替代
 - 列表➕分页➕多选➕搜索联动组件
 - 可自定义 webpack 配置➕优化打包
+- api请求模拟(MSW)
+- 单点登录(OpenId Connect)集成
 
 ## 近期规划
 
@@ -51,6 +53,7 @@
 ## 使用
 
 ### 使用命令行
+
 ```bash
 $ npm install -g typescript
 $ git clone https://github.com/hsl947/react-antd-multi-tabs-admin.git
@@ -59,6 +62,7 @@ $ yarn start         # 访问 http://localhost:666
 ```
 
 ### 权限控制
+
 <p>如果不需要权限控制，可自行注释去掉权限功能。</p>
 
 ```
@@ -141,54 +145,66 @@ const remove = (targetKey: string): void => {
 }
 ```
 
-### Redux 的使用说明
+### Redux/Toolkit 的使用说明
+
+你仍然可以使用 `redux` @Reduxjs/Toolkit是 Redux的封装.使用如下 Reduxjs/Toolkit 用于减少redux模板代码, 按照`就近原则`, 分割代码. 一个状态管理容器切片示例如下.
+
 ```
-# 在/src/store/actionTypes/index.tsx 定义新字段，格式如下
-export default {
-  ...,
-  SET_ACTION: {
-    name: 'SET_ACTION',
-    field: 'action'
+# 在/src/store/slicers
+import { createSlice } from '@reduxjs/toolkit'
+import type { RootState } from '@/store' // typescript intelligence
+
+export interface AppState {
+  theme: string
+  collapsed: boolean // 菜单收纳状态, 用于垂直布局
+  menuMode: 'horizontal' | 'vertical' // 菜单模式, 用于水平布局
+}
+
+const initialState: AppState = {
+  collapsed: false,
+  theme: 'dark',
+  menuMode: 'horizontal'
+}
+
+export const appSlice = createSlice({
+  name: 'app',
+  initialState,
+  // The `reducers` field lets us define reducers and generate associated actions
+  reducers: {
+    setTheme(state, action) {
+      state.theme = action.payload
+    },
+    // ... other setters
   }
-}
+})
 
-# 在/src/store/state/index.tsx 也定义新字段，格式如下
-interface StoreState {
-  ...;
-  action: string;
-}
-const initState: StoreState = {
-  ...,
-  action: ''
-}
+// actions
+export const { setCollapsed, setTheme, setMenuMode } = appSlice.actions
 
-# 在要使用的组件中
-import { connect } from 'react-redux'
-import * as actions from '@/store/actions'
-export default connect(
-  (state) => state,
-  actions
-)(ComponentName)
+// getters
+export const selectTheme = (state: RootState) => state.app.theme
+export const selectCollapsed = (state: RootState) => state.app.collapsed
+export const selectMenuMode = (state: RootState) => state.app.menuMode
+// 返回 已切片的 reducer
+export default appSlice.reducer
 
-# 然后在 props 就有 setStoreData 属性，可用来 dispatch
-setStoreData('SET_ACTION', '')
-
-# 只需要定义 type 和 state，不需要写每个action，效率提高了木有有！！！
 ```
 
 ### 路由/菜单配置
+
 ```
 # 所有路由写在 /src/route/routes.ts （包括菜单栏的路由）
   用于路由权限控制
 
-# 左侧菜单路由写在 /src/config/menu.ts
-  仅用于菜单栏展示
+# 菜单路由基于路由生成, 路由项上增加额外字段标识: 是否在菜单栏展示,及图标等信息
 
-# 分两套的原因是，方便维护，如果不嫌麻烦，可以都写在 routes 里，用一个字段标识菜单路由即可
+# 你也可以分开写, 增强带单定制功能.
 ```
 
 ### 关于换肤配置
+
 > 本框架是使用 less.js 实现动态切换主题，js文件在 /public/less.min.js
+
 ```
 # 主题配置文件在 /public/color.less
 
@@ -213,7 +229,6 @@ setStoreData('SET_ACTION', '')
 
 - 通过 [Issue](https://github.com/hsl947/react-antd-multi-tabs-admin/issues) 报告 bug。
 - 提交 [Pull Request](https://github.com/hsl947/react-antd-multi-tabs-admin/pulls) 一起改进。
-
 
 ## 友情赞助 - Sponsor
 
