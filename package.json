@@ -16,7 +16,7 @@
     "echarts-for-react": "^2.0.15-beta.1",
     "less": "^3.11.1",
     "less-loader": "^6.0.0",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "oidc-client": "^1.11.5",
     "react": "^17.0.2",
     "react-canvas-nest": "^1.0.10",
