@@ -2,7 +2,10 @@ import {
   HomeOutlined,
   BankOutlined,
   UserOutlined,
-  AuditOutlined
+  AuditOutlined,
+  DashboardOutlined,
+  InfoCircleOutlined,
+  ApiOutlined
 } from '@ant-design/icons'
 import Home from '@/pages/home'
 import Workspace from '@/pages/home/Workspace'
@@ -15,8 +18,8 @@ import RoleList from '@/pages/role/list'
 
 import AuthTest from '@/pages/test'
 import { MenuRoute } from '@/route/types'
-import React from 'react'
-import { Icon } from '@iconify/react'
+// import React from 'react'
+// import { Icon } from '@iconify/react'
 import { TestApiLoad } from './TempTestRouteComponent'
 
 /**
@@ -39,8 +42,9 @@ const preDefinedRoutes: MenuRoute[] = [
     exact: true,
     key: 'workspace',
     component: Workspace,
-    icon: () =>
-      React.createElement(Icon, { icon: 'arcticons:syska-smart-home' })
+    icon: DashboardOutlined
+    // icon: () =>
+    //   React.createElement(Icon, { icon: 'arcticons:syska-smart-home' })
   },
   {
     path: '/user',
@@ -104,7 +108,7 @@ const preDefinedRoutes: MenuRoute[] = [
     name: '测试api',
     exact: true,
     key: '/test-api',
-    icon: BankOutlined,
+    icon: ApiOutlined,
     component: TestApiLoad
   },
   {
@@ -112,6 +116,7 @@ const preDefinedRoutes: MenuRoute[] = [
     name: '暂无权限',
     exact: true,
     key: '/403',
+    icon: InfoCircleOutlined,
     // hideInMenu: true,
     component: ErrorPage
   }

@@ -65,7 +65,7 @@ const MenuView: FC<MenuProps> = ({ menuMode }) => {
     return (
       <div className="flex items-center">
         {iconfont ? <MyIconFont type={iconfont} /> : !!MenuIcon && <MenuIcon />}
-        {!collapsed && <span className={styles.noselect}>{data.name}</span>}
+        <span className={styles.noselect}>{data.name}</span>
       </div>
     )
   }
