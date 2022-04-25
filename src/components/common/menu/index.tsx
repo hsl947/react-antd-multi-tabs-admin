@@ -9,7 +9,6 @@ import logo from '@/assets/img/logo.png'
 import { useAppSelector } from '@/store/redux-hooks'
 import { selectUserInfo } from '@/store/slicers/userSlice'
 import { selectCollapsed, selectTheme } from '@/store/slicers/appSlice'
-import classNames from 'classnames'
 import styles from './Menu.module.less'
 
 const { Header } = Layout

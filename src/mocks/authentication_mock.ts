@@ -1,7 +1,7 @@
 import { rest } from 'msw'
 import type { UserInfo } from '@/app_models/user'
 
-const userRes: UserInfo[] = [
+export const userRes: UserInfo[] = [
   {
     username: 'admin',
     password: '123456',

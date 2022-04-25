@@ -11,6 +11,7 @@ import { useAppDispatch, useAppSelector } from '@/store/redux-hooks'
 import { selectUserInfo, setUserInfo } from '@/store/slicers/userSlice'
 import { setTabs } from '@/store/slicers/tabSlice'
 import { selectTheme } from '@/store/slicers/appSlice'
+import { userRes } from '@/mocks/authentication_mock'
 
 const LoginForm: FC = () => {
   const dispatch = useAppDispatch()
@@ -29,33 +30,44 @@ const LoginForm: FC = () => {
 
   // 触发登录方法
   const onFinish = async (values: CommonObjectType<string>) => {
-    const { username, password } = values
-    try {
-      const result = await session.login({ username, password })
-      dispatch(setUserInfo(result))
-      history.push('/')
-    } catch (e) {
-      const response = (e as any)?.response // Axios异常
-      message.error(
-        response
-          ? `发生错误:${response.data}`
-          : `认证服务异常,请联系管理员:${e}`
-      )
+    // 开发环境 mock
+    if (process.env.NODE_ENV === 'development') {
+      const { username, password } = values
+      try {
+        const result = await session.login({ username, password })
+        dispatch(setUserInfo(result))
+        history.push('/')
+      } catch (e) {
+        const response = (e as any)?.response // Axios异常
+        message.error(
+          response
+            ? `发生错误:${response.data}`
+            : `认证服务异常,请联系管理员:${e}`
+        )
+      }
+      return
     }
+    // 线上环境直接返回信息
+    const result = userRes[0]
+    dispatch(setUserInfo(result))
+    history.push('/')
   }
 
   const FormView = (
-    <Form className="login-form" name="login-form" onFinish={onFinish}>
+    <Form
+      initialValues={{ username: 'admin', password: '123456' }}
+      className="login-form"
+      name="login-form"
+      onFinish={onFinish}
+    >
       <Form.Item
         name="username"
-        initialValue="admin"
         rules={[{ required: true, message: '请输入用户名' }]}
       >
         <Input placeholder="用户名" prefix={<UserOutlined />} size="large" />
       </Form.Item>
       <Form.Item
         name="password"
-        initialValue="123456"
         rules={[{ required: true, message: '请输入密码' }]}
         extra="用户名：admin 密码：123456"
       >
