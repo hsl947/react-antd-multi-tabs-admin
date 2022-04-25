@@ -113,30 +113,26 @@ const MenuView: FC<MenuProps> = ({ menuMode }) => {
   const showKeys = collapsed ? [] : setDefaultKey
   const LogLink = () => (
     <Link to={{ pathname: '/' }}>
-      <div
-        className={classNames({
-          [styles.horizontalHeader]: menuMode === 'horizontal'
-        })}
-      >
-        <img alt="logo" src={logo} className="h-12 inline" />
-        {!collapsed && <h1 className="inline">Antd多页签模板</h1>}
+      <div className="flex items-center logo">
+        <img alt="logo" src={logo} width="32" />
+        {!collapsed && <h1>Antd多页签模板</h1>}
       </div>
     </Link>
   )
   if (menuMode === 'horizontal')
     return (
-      <Header className="header">
-        <Menu
-          mode="horizontal"
-          onClick={handleClick}
-          selectedKeys={[current]}
-          theme={theme === 'default' ? 'light' : 'dark'}
-        >
-          <Menu.Item className={styles.noselect}>
-            <LogLink />
-          </Menu.Item>
-          {renderMenuMap(menus)}
-        </Menu>
+      <Header className="flex header">
+        <LogLink />
+        <div className={styles.autoWidthMenu}>
+          <Menu
+            mode="horizontal"
+            onClick={handleClick}
+            selectedKeys={[current]}
+            theme={theme === 'default' ? 'light' : 'dark'}
+          >
+            {renderMenuMap(menus)}
+          </Menu>
+        </div>
       </Header>
     )
   return (
@@ -151,9 +147,7 @@ const MenuView: FC<MenuProps> = ({ menuMode }) => {
       }}
       width={220}
     >
-      <div className="logo">
-        <LogLink />
-      </div>
+      <LogLink />
       <Menu
         defaultOpenKeys={showKeys}
         mode="inline"
