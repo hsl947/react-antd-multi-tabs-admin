@@ -74,7 +74,7 @@ const preDefinedRoutes: MenuRoute[] = [
         name: '编辑用户',
         exact: true,
         key: 'user:list:edit',
-        // hideInMenu: true,
+        hideInMenu: true,
         component: UserEdit
       }
     ]

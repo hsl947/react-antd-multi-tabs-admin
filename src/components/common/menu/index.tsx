@@ -80,14 +80,10 @@ const MenuView: FC<MenuProps> = ({ menuMode }) => {
 
   // 创建可展开的第一级子菜单
   const creatSubMenu = (data: CommonObjectType): JSX.Element => {
-    const menuItemList = []
-    data.routes.map((item: MenuType) => {
-      const arr = permission.filter((ele) => item.key === ele.code)
-      if (arr.length > 0) {
-        menuItemList.push(renderMenu(item))
-      }
-      return arr
-    })
+    const menuItemList = data.routes.reduce((prev, item: MenuType) => {
+      const isAuthMenu = permission.find((ele) => item.key === ele.code)
+      return isAuthMenu && !item.hideInMenu ? [...prev, renderMenu(item)] : prev
+    }, [])
 
     return menuItemList.length > 0 ? (
       <SubMenu key={data.key} title={subMenuTitle(data)}>

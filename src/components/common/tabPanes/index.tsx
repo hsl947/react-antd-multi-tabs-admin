@@ -265,6 +265,7 @@ const TabPanes: FC<Props> = (props) => {
   return (
     <div>
       <Tabs
+        // destroyInactiveTabPane
         activeKey={activeKey}
         className={style.tabs}
         defaultActiveKey={defaultActiveKey}
