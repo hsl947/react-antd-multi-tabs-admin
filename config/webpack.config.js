@@ -4,13 +4,14 @@ const {
   addWebpackAlias,
   fixBabelImports,
   addLessLoader,
-  addPostcssPlugins, addWebpackPlugin
+  addPostcssPlugins
 } = require('customize-cra')
 const CompressionWebpackPlugin = require('compression-webpack-plugin')
 const BundleAnalyzerPlugin =
   require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const webpack = require('webpack')
 const path = require('path')
+const WebpackBar = require('webpackbar')
 const darkThemeVars = require('antd/dist/dark-theme')
 const {addReactRefresh} = require('customize-cra-react-refresh')
 // 分析打包大小
@@ -66,8 +67,16 @@ const addOptimization = () => (config) => {
   return config
 }
 
+// 添加webpack编译进度条
+const addWebpackBar = () => (config) => {
+  let plugins = [new webpack.ProgressPlugin(), new WebpackBar()]
+  config.plugins = [...config.plugins, ...plugins]
+  return config
+}
+
 module.exports = override(
   // addAnalyze(),
+  addWebpackBar(),
   // 配置路径别名
   addWebpackAlias({
     '@': path.resolve('src')

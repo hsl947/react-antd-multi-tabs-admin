@@ -27,7 +27,8 @@
     "react-router-dom": "^5.3.0",
     "redux": "^4.0.4",
     "redux-persist": "^6.0.0",
-    "redux-promise": "^0.6.0"
+    "redux-promise": "^0.6.0",
+    "webpackbar": "^5.0.2"
   },
   "scripts": {
     "start": "cross-env PORT=4200 react-app-rewired start",
