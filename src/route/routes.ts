@@ -5,7 +5,8 @@ import {
   AuditOutlined,
   DashboardOutlined,
   InfoCircleOutlined,
-  ApiOutlined
+  ApiOutlined,
+  ProductOutlined
 } from '@ant-design/icons'
 import Home from '@/pages/home'
 import Workspace from '@/pages/home/Workspace'
@@ -15,6 +16,8 @@ import UserList from '@/pages/user/list'
 import UserEdit from '@/pages/user/edit'
 
 import RoleList from '@/pages/role/list'
+
+import ProductManagement from '@/pages/product'
 
 import AuthTest from '@/pages/test'
 import { MenuRoute } from '@/route/types'
@@ -92,6 +95,22 @@ const preDefinedRoutes: MenuRoute[] = [
         exact: true,
         key: 'role:list:view',
         component: RoleList
+      }
+    ]
+  },
+  {
+    path: '/admin',
+    name: '商品中心',
+    key: 'product-center',
+    type: 'subMenu',
+    icon: ProductOutlined,
+    routes: [
+      {
+        path: '/admin/product',
+        name: '商品管理',
+        exact: true,
+        key: 'product:management',
+        component: ProductManagement
       }
     ]
   },
